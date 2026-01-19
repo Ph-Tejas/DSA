@@ -20,7 +20,7 @@ public:
         int n=nums1.size();
         int m=nums2.size();
         vector<int>comb1;
-        map<int,int>mp1,mp2;
+        unordered_map<int,int>mp1,mp2;
         tree1.resize(n+m);
         for(int i=0;i<n;i++){
             mp1[nums1[i]]=i;

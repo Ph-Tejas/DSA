@@ -8,6 +8,10 @@ public:
     int minCost(vector<vector<int>>& grid, int k) {
         int n = grid.size(), m = grid[0].size();
         int N = n * m;
+        if (k && grid[0][0] >= grid[n - 1][m - 1]) {
+    return 0;
+}
+
 
         vector<vector<int>> vis(N, vector<int>(k + 1, 0));
 

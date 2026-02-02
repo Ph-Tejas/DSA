@@ -1,7 +1,7 @@
 class RideSharingSystem {
 public:
     queue<int>qr,qd;
-    set<int>av;
+    unordered_set<int>av;
     RideSharingSystem() {
         
     }

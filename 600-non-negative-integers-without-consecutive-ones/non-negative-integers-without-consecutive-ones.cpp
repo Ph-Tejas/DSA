@@ -22,9 +22,9 @@ public:
         for(int i=pos.size()-1;i>-1;i--){
 
             int curr=pos[i];
-            ans+=dp[pos[i]][0];
+            ans+=dp[curr][0];
             if(i!=pos.size()-1){
-                if(pos[i+1]-pos[i]==1)break;
+                if(pos[i+1]-curr==1)break;
             }
             if(i==0)ans++;
 

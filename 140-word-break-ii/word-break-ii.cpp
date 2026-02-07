@@ -1,6 +1,6 @@
 class Solution {
 public:
-    set<string>st;
+    unordered_set<string>st;
     vector<int>dp;
     vector<vector<string>>ans;
     bool rec(int i,string &s){

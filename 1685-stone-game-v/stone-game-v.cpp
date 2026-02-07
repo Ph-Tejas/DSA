@@ -1,42 +1,42 @@
 class Solution {
 public:
-int dp[501][501];
-int  solve(int i,int j,vector<int>& nums,int sum){
-    if(i==j)
-    return 0;
-    if(dp[i][j]!=-1)
-    return dp[i][j];
-    int temp=0;
-    int ans=0;
-
-    for(int k=i;k<j;k++){
-        temp+=nums[k];
-        int result=0;
-        if(temp*2<sum){
-            result=temp+solve(i,k,nums,temp);
-        }
-        else if(temp*2>sum){
-            result=sum-temp+solve(k+1,j,nums,sum-temp);
-        }
-        else {
-            result=temp+max(solve(i,k,nums,temp),solve(k+1,j,nums,sum-temp));
-        }
-        ans=max(ans,result);
-
-
-    }
-    return dp[i][j]=ans;
-
-
-}
-
-    int stoneGameV(vector<int>& stoneValue) {
-        memset(dp,-1,sizeof(dp));
-        int n=stoneValue.size();
-        int sum=0;
-        for(int i=0;i<n;i++)
-        sum+=stoneValue[i];
-        return solve(0,n-1,stoneValue,sum);
+    int stoneGameV(vector<int>& nums) {
+        int n = nums.size();
         
+        // prefix sum
+        vector<int> pref(n + 1, 0);
+        for (int i = 0; i < n; i++)
+            pref[i + 1] = pref[i] + nums[i];
+
+        // dp[i][j] = max score from subarray [i, j]
+        vector<vector<int>> dp(n, vector<int>(n, 0));
+
+        // length of interval
+        for (int len = 2; len <= n; len++) {
+            for (int i = 0; i + len - 1 < n; i++) {
+                int j = i + len - 1;
+                int best = 0;
+
+                for (int k = i; k < j; k++) {
+                    int leftSum  = pref[k + 1] - pref[i];
+                    int rightSum = pref[j + 1] - pref[k + 1];
+
+                    int score = 0;
+                    if (leftSum < rightSum) {
+                        score = leftSum + dp[i][k];
+                    } else if (leftSum > rightSum) {
+                        score = rightSum + dp[k + 1][j];
+                    } else {
+                        score = leftSum + max(dp[i][k], dp[k + 1][j]);
+                    }
+
+                    best = max(best, score);
+                }
+
+                dp[i][j] = best;
+            }
+        }
+
+        return dp[0][n - 1];
     }
 };

@@ -13,10 +13,13 @@ class Solution {
 public:
     bool ans=true; 
     int fun(TreeNode* root){
+        if(!ans)return 0;
         if(root==NULL)return 0;
         int a=fun(root->left);
         int b=fun(root->right);
-        if(abs(a-b)>1)ans=false;
+        if(abs(a-b)>1){
+            ans=false;
+        }
         if(a<b)return b+1;
         else return a+1;
     }

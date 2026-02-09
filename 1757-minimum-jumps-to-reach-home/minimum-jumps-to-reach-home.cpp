@@ -3,7 +3,7 @@ public:
     set<int>st;
     int minimumJumps(vector<int>& forbidden, int a, int b, int x) {
         int n=forbidden.size();
-        vector<int>vis(40001);
+        vector<int>vis(41001);
         for(int i=0;i<n;i++){
             vis[forbidden[i]]=1;
         }
@@ -23,7 +23,7 @@ public:
             if(ind-b>=0&&com==0){
                 q.push({ind-b,{turn+1,1}});
             }
-            if(ind+a<=40000){
+            if(ind+a<=41000){
                 q.push({ind+a,{turn+1,0}});
             }
 

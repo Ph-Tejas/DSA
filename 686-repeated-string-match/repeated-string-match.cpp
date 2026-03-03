@@ -1,74 +1,45 @@
 class Solution {
+private:
+    int BASE = 1000000;
 public:
-    void formLPS(string b,int m,vector<int>&lps){
-        
-        int len=0;
-        int i=1;
-        while(i<m){
-            if(b[i]==b[len]){
-                len++;
-                lps[i]=len;
-                i++;
-                
-            }
-            else{
-                if(len==0){
-                    lps[i]=0;
-                    i++;
-                }
-                else{
-                    len=lps[len-1];
-                }
-            }
+    int repeatedStringMatch(string A, string B) {
+        if(A == B) return 1;
+        int count = 1;
+        string source = A;
+        while(source.size() < B.size()){
+            count++;
+            source+=A;
         }
+        if(source == B) return count;
+        if(Rabin_Karp(source,B) != -1) return count;
+        if(Rabin_Karp(source+A,B) != -1) return count+1;
+        return -1;
     }
-    int repeatedStringMatch(string a, string b) {
-        int n=a.size();
-        int m=b.size();
-        vector<int>cases={(m/n),(m/n)+1,(m/n)+2,(m/n)+3};
-        string temp="";
-        for(int i=0;i<cases[0];i++){
-            temp+=a;
+    int Rabin_Karp(string source, string target){
+        if(source == "" or target == "") return -1;
+        int m = target.size();
+        int power = 1;
+        for(int i = 0;i<m;i++){
+            power = (power*31)%BASE;
         }
-        vector<int>lps(m);
-        formLPS(b,m,lps);
-        
-        for(int ct=0;ct<4;ct++){
-
-            int i=0;
-            int j=0;
-            while(i<temp.size()){
-                if(b[j]==temp[i]){
-                    i++;
-                    j++;
-                }
-                if(j==m){
-                    return cases[ct];
-                }
-                
-                else if(i<temp.size()&&b[j]!=temp[i]){
-                    if(j==0){
-                        i++;
-                    }
-                    else{
-                        j=lps[j-1];
-
-                    }
-                }
+        int targetCode = 0;
+        for(int i = 0;i<m;i++){
+            targetCode = (targetCode*31+target[i])%BASE;
+        }
+        int hashCode = 0;
+        for(int i = 0;i<source.size();i++){
+            hashCode = (hashCode*31 + source[i])%BASE;
+            if(i<m-1) continue;
+            if(i>=m){
+                hashCode = (hashCode-source[i-m]*power)%BASE;
             }
-
-            
-            
-
-
-            temp+=a;
+            if(hashCode<0)
+                hashCode+=BASE;
+            if(hashCode == targetCode){
+                if(source.substr(i-m+1,m) == target)
+                    return i-m+1;
+            }
         }
         return -1;
-
-
-
-
-
-
     }
 };

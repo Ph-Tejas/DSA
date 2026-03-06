@@ -1,101 +1,49 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
+#include <cstddef>
+#include <string>
+#include <list>
+#include <sstream>
+
+using namespace std;
+
+
 class Codec {
 public:
 
-    // Encodes a tree to a single string.
+    void serializeHelper(TreeNode* root, string& res) {
+        if (!root) {
+            res += "#,"; // Empty node
+            return;
+        }
+        res += to_string(root->val) + ",";
+        serializeHelper(root->left, res);
+        serializeHelper(root->right, res);
+    }
+
     string serialize(TreeNode* root) {
-        string fin="";
-        queue<TreeNode*>q;
-        q.push(root);
-        while(!q.empty()){
-            int value;
-            TreeNode* l;
-            TreeNode* r;
-            if(q.front()==NULL){
-                fin+="null#";
-                q.pop();
-                continue;
-            }
-            value=q.front()->val;
-            l=q.front()->left;
-            r=q.front()->right;
-            fin+=to_string(value);
-            fin+="#";
-            q.pop();
-            q.push(l);
-            q.push(r);
-
-
-
-        }
-        return fin;
-
+        string res;
+        serializeHelper(root, res);
+        return res;
     }
 
-    // Decodes your encoded data to tree.
-    void rec(int &it,vector<int>&fin,vector<TreeNode*>toPursue){
-        if(toPursue.size()==0)return;
-        vector<TreeNode*>willPursue;
-        for(int i=0;i<toPursue.size();i++){
-            if(toPursue[i]==NULL)continue;
-            if(fin[it]==20000){
-                toPursue[i]->left=NULL;
-            }
-            else toPursue[i]->left=new TreeNode(fin[it]);
-            willPursue.push_back(toPursue[i]->left);
-            it++;
-            if(fin[it]==20000){
-                toPursue[i]->right=NULL;
+    TreeNode* deserializeHelper(list<string>& nodes) {
+        string val = nodes.front();
+        nodes.pop_front();
 
-            }
-            else{
-                toPursue[i]->right=new TreeNode(fin[it]);
-            }
-            willPursue.push_back(toPursue[i]->right);
-            it++;
-        }
-        rec(it,fin,willPursue);
+        if (val == "#") return nullptr;
 
+        TreeNode* root = new TreeNode(stoi(val));
+        root->left = deserializeHelper(nodes);
+        root->right = deserializeHelper(nodes);
+        return root;
     }
+
     TreeNode* deserialize(string data) {
-        
-        vector<int>fin;
-        string temp;
-        for(int i=0;i<data.size();i++){
-            if(data[i]=='#'){
-                if(temp[0]=='n'){
-                    fin.push_back(20000);
-                }
-                else fin.push_back(stoi(temp));
-                temp.clear();
-                continue;
-            }
-            temp.push_back(data[i]);
-
+        list<string> nodes;
+        string str;
+        stringstream ss(data);
+        while (getline(ss, str, ',')) {
+            nodes.push_back(str);
         }
-        if(fin.size()==1){
-            return NULL;
-        }
-        int it=1;
-        TreeNode* head=new TreeNode(fin[0]);
-        
-        rec(it,fin,{head});
-        return head;
-        
-
-
-
+        return deserializeHelper(nodes);
     }
 };
-
-// Your Codec object will be instantiated and called as such:
-// Codec ser, deser;
-// TreeNode* ans = deser.deserialize(ser.serialize(root));

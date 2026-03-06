@@ -1,49 +1,64 @@
-#include <cstddef>
-#include <string>
-#include <list>
-#include <sstream>
-
-using namespace std;
-
-
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
 class Codec {
 public:
-
-    void serializeHelper(TreeNode* root, string& res) {
-        if (!root) {
-            res += "#,"; // Empty node
-            return;
-        }
-        res += to_string(root->val) + ",";
-        serializeHelper(root->left, res);
-        serializeHelper(root->right, res);
-    }
-
+    // Serialize using preorder traversal
     string serialize(TreeNode* root) {
-        string res;
-        serializeHelper(root, res);
-        return res;
+        string s;
+        preorder(root, s);
+        return s;
     }
 
-    TreeNode* deserializeHelper(list<string>& nodes) {
-        string val = nodes.front();
-        nodes.pop_front();
+    void preorder(TreeNode* node, string &s) {
+        if (!node) return;
+        s += to_string(node->val) + ",";
+        preorder(node->left, s);
+        preorder(node->right, s);
+    }
 
-        if (val == "#") return nullptr;
+    // Deserialize
+    TreeNode* deserialize(string data) {
+        vector<int> values;
+        string temp = "";
 
-        TreeNode* root = new TreeNode(stoi(val));
-        root->left = deserializeHelper(nodes);
-        root->right = deserializeHelper(nodes);
+        for (char c : data) {
+            if (c == ',') {
+                values.push_back(stoi(temp));
+                temp = "";
+            } else {
+                temp += c;
+            }
+        }
+
+        int index = 0;
+        return build(values, index, INT_MIN, INT_MAX);
+    }
+
+    TreeNode* build(vector<int>& values, int& index, int minVal, int maxVal) {
+        if (index >= values.size()) return NULL;
+
+        int val = values[index];
+        if (val < minVal || val > maxVal) return NULL;
+
+        TreeNode* root = new TreeNode(val);
+        index++;
+
+        root->left = build(values, index, minVal, val);
+        root->right = build(values, index, val, maxVal);
+
         return root;
     }
-
-    TreeNode* deserialize(string data) {
-        list<string> nodes;
-        string str;
-        stringstream ss(data);
-        while (getline(ss, str, ',')) {
-            nodes.push_back(str);
-        }
-        return deserializeHelper(nodes);
-    }
 };
+// Your Codec object will be instantiated and called as such:
+// Codec* ser = new Codec();
+// Codec* deser = new Codec();
+// string tree = ser->serialize(root);
+// TreeNode* ans = deser->deserialize(tree);
+// return ans;

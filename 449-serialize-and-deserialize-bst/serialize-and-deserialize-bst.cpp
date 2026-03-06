@@ -20,7 +20,7 @@ public:
             TreeNode* l;
             TreeNode* r;
             if(q.front()==NULL){
-                fin+="n#";
+                fin+="null#";
                 q.pop();
                 continue;
             }
@@ -42,36 +42,29 @@ public:
 
     // Decodes your encoded data to tree.
     void rec(int &it,vector<int>&fin,vector<TreeNode*>toPursue){
-    if(toPursue.size()==0 || it>=fin.size()) return;
+        if(toPursue.size()==0)return;
+        vector<TreeNode*>willPursue;
+        for(int i=0;i<toPursue.size();i++){
+            if(toPursue[i]==NULL)continue;
+            if(fin[it]==20000){
+                toPursue[i]->left=NULL;
+            }
+            else toPursue[i]->left=new TreeNode(fin[it]);
+            willPursue.push_back(toPursue[i]->left);
+            it++;
+            if(fin[it]==20000){
+                toPursue[i]->right=NULL;
 
-    vector<TreeNode*>willPursue;
-
-    for(int i=0;i<toPursue.size() && it<fin.size();i++){
-        if(toPursue[i]==NULL) continue;
-
-        if(fin[it]==20000){
-            toPursue[i]->left=NULL;
+            }
+            else{
+                toPursue[i]->right=new TreeNode(fin[it]);
+            }
+            willPursue.push_back(toPursue[i]->right);
+            it++;
         }
-        else{
-            toPursue[i]->left=new TreeNode(fin[it]);
-        }
-        willPursue.push_back(toPursue[i]->left);
-        it++;
+        rec(it,fin,willPursue);
 
-        if(it>=fin.size()) break;
-
-        if(fin[it]==20000){
-            toPursue[i]->right=NULL;
-        }
-        else{
-            toPursue[i]->right=new TreeNode(fin[it]);
-        }
-        willPursue.push_back(toPursue[i]->right);
-        it++;
     }
-
-    rec(it,fin,willPursue);
-}
     TreeNode* deserialize(string data) {
         
         vector<int>fin;

@@ -1,10 +1,10 @@
 class H2O {
 public:
-    int o=0;
+    int o;
     mutex m;
     condition_variable cv; 
     H2O() {
-        
+        o=1;
     }
 
     void hydrogen(function<void()> releaseHydrogen) {

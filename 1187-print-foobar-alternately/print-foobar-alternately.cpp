@@ -12,8 +12,8 @@ public:
 
     void foo(function<void()> printFoo) {
         
-        for (int i = 0; i < n; i++) {
             unique_lock<mutex> lock(m);
+        for (int i = 0; i < n; i++) {
             cv.wait(lock,[&](){
                 return !flag;
             });
@@ -26,9 +26,9 @@ public:
 
     void bar(function<void()> printBar) {
         
+            unique_lock<mutex> lock(m);
         for (int i = 0; i < n; i++) {
 
-            unique_lock<mutex> lock(m);
             cv.wait(lock,[&](){
                 return flag;
             });

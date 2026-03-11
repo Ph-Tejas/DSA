@@ -1,44 +1,63 @@
 class Solution {
 public:
-    int minCost(vector<int>& houses, vector<vector<int>>& cost, int n, int m, int target) {
+    int n,m;
+    vector<vector<vector<int>>>dp;
+    int solve(int prev,int ind,int target,vector<int>& houses, vector<vector<int>>& cost){
+        if(ind==n&&target==0){
+            return 0;
+        }
         
-        const int INF = 1e9;
-        
-        vector<vector<vector<int>>> dp(n, vector<vector<int>>(target+1, vector<int>(m+1, INF)));
+        if(target<0||ind==n){
+            return 1e9;
+        }
+        if(dp[prev][ind][target]!=-1){
+            return dp[prev][ind][target];
+        }
+        int ans=-1;
+        if(houses[ind]!=0){
+            if(houses[ind]==prev){
+                ans=solve(prev,ind+1,target,houses,cost);
+            }
+            else{
 
-        // first house
-        if(houses[0] == 0){
-            for(int c=1;c<=m;c++)
-                dp[0][1][c] = cost[0][c-1];
+                ans=solve(houses[ind],ind+1,target-1,houses,cost);
+            }
+
         }
         else{
-            dp[0][1][houses[0]] = 0;
-        }
-
-        for(int i=1;i<n;i++){
-            for(int j=1;j<=target;j++){
-                for(int c=1;c<=m;c++){
-
-                    if(houses[i] != 0 && houses[i] != c) continue;
-
-                    int paintCost = (houses[i]==0 ? cost[i][c-1] : 0);
-
-                    for(int pc=1;pc<=m;pc++){
-
-                        if(pc == c)
-                            dp[i][j][c] = min(dp[i][j][c], dp[i-1][j][pc] + paintCost);
-                        else if(j>1)
-                            dp[i][j][c] = min(dp[i][j][c], dp[i-1][j-1][pc] + paintCost);
-                    }
+            int mini=INT_MAX;
+            for(int i=0;i<m;i++){
+                if(i+1==prev){
+                    mini=min(mini,cost[ind][i]+solve(i+1,ind+1,target,houses,cost));
+                }
+                else{
+                    mini=min(mini,cost[ind][i]+solve(i+1,ind+1,target-1,houses,cost));
                 }
             }
+            ans=mini;
+        }
+        return dp[prev][ind][target]=ans;
+    }
+    int minCost(vector<int>& houses, vector<vector<int>>& cost, int n_, int m_, int target) {
+        n=n_;
+        m=m_;
+        dp.resize(m+1,vector<vector<int>>(n,vector<int>(target+1,-1)));
+        int ans=-1;
+        if(houses[0]==0){
+            int mini=INT_MAX;
+            for(int i=0;i<m;i++){
+                mini=min(mini,cost[0][i]+solve(i+1,1,target-1,houses,cost));
+            }
+            ans=mini;
+        }
+        else{
+            ans=solve(houses[0],1,target-1,houses,cost);
         }
 
-        int ans = INF;
+        if(ans>=1e9)return -1;
+        return ans;
 
-        for(int c=1;c<=m;c++)
-            ans = min(ans, dp[n-1][target][c]);
 
-        return ans >= INF ? -1 : ans;
+
     }
 };

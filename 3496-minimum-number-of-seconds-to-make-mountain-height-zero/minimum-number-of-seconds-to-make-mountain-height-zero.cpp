@@ -12,10 +12,7 @@ public:
                 
                 long long curr=workerTime[i];
                 long long val=sqrt((mid1/curr)*2)+1;
-                if(curr*((val*(val+1))/2)<=mid1){
-                    mH-=val;
-                }
-                else if(curr*((val*(val-1))/2)<=mid1){
+                if(curr*((val*(val-1))/2)<=mid1){
                     mH-=val-1;
                 }
                 else{

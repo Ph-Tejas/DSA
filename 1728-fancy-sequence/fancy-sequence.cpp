@@ -10,28 +10,17 @@ public:
         given=0;
         mul=1;
     }
-    void binaryPow(int val){
-        long long system=val;
-        for(int i=0;i<50;i++){
-            
-            powy[i]=system;
-            system*=system;
-            system%=mod;
-        }
+    long long modPow(long long a,long long b){
+    long long res=1;
+    while(b){
+        if(b&1) res=res*a%mod;
+        a=a*a%mod;
+        b>>=1;
     }
+    return res;
+}
     long long modularAr(int val){
-        long long ref=1e9+5;
-        long long sumMul=1;
-        binaryPow(val);
-
-        for(int i=0;i<50;i++){
-            if((ref>>i)&1){
-                sumMul*=powy[i];
-                sumMul%=mod;
-
-            }
-        }
-        return sumMul;
+        return modPow(val,mod-2);
     }
     
     void append(int val) {

@@ -4,9 +4,7 @@ public:
     long long mod=1e9+7;
     long long given;
     long long mul;
-    vector<long long>powy;
     Fancy() {
-        powy.resize(50,1);
         given=0;
         mul=1;
     }

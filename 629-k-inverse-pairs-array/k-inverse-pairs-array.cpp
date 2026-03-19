@@ -9,9 +9,7 @@ public:
         if(k==0)return 1;
         vector<vector<long long>>dp(n+1,vector<long long>(k+1));
         dp[1][0]=1;
-        dp[2][0]=2;
-        dp[2][1]=1;
-        for(int i=3;i<=n;i++){
+        for(int i=2;i<=n;i++){
             for(int j=k;j>-1;j--){
                 if(j==k){
                     if(i-1>j){

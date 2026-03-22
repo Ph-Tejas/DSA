@@ -34,6 +34,7 @@ public:
         int n=arr1.size();
         int m=arr2.size();
         sort(arr2.begin(),arr2.end());
+        arr2.erase(unique(arr2.begin(), arr2.end()), arr2.end());
         int ans=fun(0,-1,arr1,arr2);
         if(ans>=1e9)return -1;
         return ans;

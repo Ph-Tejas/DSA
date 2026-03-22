@@ -1,6 +1,13 @@
+struct hash_pair {
+    size_t operator()(const pair<int,int>& p) const {
+        return hash<int>()(p.first) ^ (hash<int>()(p.second) << 1);
+    }
+};
 class Solution {
 public:
-    map<pair<int,int>,int>mp;
+
+
+    unordered_map<pair<int,int>, int, hash_pair> mp;
     int fun(int ind,int prev,vector<int>& arr1, vector<int>& arr2){
         if(ind==arr1.size())return 0;
         if(mp.find({ind,prev})!=mp.end()){

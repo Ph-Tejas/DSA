@@ -1,44 +1,32 @@
 class Solution {
 public:
-    int numSubmatrixSumTarget(vector<vector<int>>& matrix, int target) {
-        int n=matrix.size();
-        int m=matrix[0].size();
+    int solve(vector<int>& col,int target){
+        int n=col.size();
+        unordered_map<int,int> mp;//sum,freq
+        mp[0]=1;
+        int sum=0;
+        int ans=0;
         for(int i=0;i<n;i++){
-            int h=0;
-            for(int j=0;j<m;j++){
-                h+=matrix[i][j];
-                matrix[i][j]=h;                
-            }
+            sum +=col[i];
+            int need=sum-target;
+            if(mp.find(need)!=mp.end()) ans+=mp[need];
+            mp[sum]++;
         }
-        for(int i=0;i<m;i++){
-            int h=0;
-            for(int j=0;j<n;j++){
-                h+=matrix[j][i];
-                matrix[j][i]=h;                
-            }
-        }
-        int ct=0;
-        for(int I=1;I<=n;I++){
-            for(int J=1;J<=m;J++){
-                for(int i=I-1;i<n;i++){
-                    for(int j=J-1;j<m;j++){
-                        if(i-I==-1&&j-J==-1){
-                            if(matrix[i][j]==target)ct++;
-                        }
-                        else if(j-J==-1){
-                            if(matrix[i][j]-matrix[i-I][j]==target)ct++;
-                        }
-                        else if(i-I==-1){
-                            if(matrix[i][j]-matrix[i][j-J]==target)ct++;
-                        }
-                        else{
-                            if(matrix[i][j]-matrix[i-I][j]-matrix[i][j-J]+matrix[i-I][j-J]==target)ct++;
-                        }
-                    }
+        return ans;
+    }
+    int numSubmatrixSumTarget(vector<vector<int>>& matrix, int target){ //time-O(n^3)
+        int m=matrix.size();
+        int n=matrix[0].size();
+        int ans=0;
+        for(int c1=0;c1<n;c1++){
+            vector<int> col(m,0);
+            for(int c2=c1;c2<n;c2++){
+                for(int r=0;r<m;r++){
+                    col[r]+=matrix[r][c2];
                 }
+                ans+=solve(col,target);
             }
-
         }
-        return ct;
+        return ans;
     }
 };

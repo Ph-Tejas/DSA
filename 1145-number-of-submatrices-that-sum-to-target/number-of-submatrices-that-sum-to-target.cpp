@@ -1,5 +1,11 @@
 class Solution {
 public:
+    Solution()
+    {
+        cin.tie(NULL);
+        cout.tie(NULL);
+        ios_base :: sync_with_stdio(false);
+    }
     int solve(vector<int>& col,int target){
         int n=col.size();
         unordered_map<int,int> mp;//sum,freq

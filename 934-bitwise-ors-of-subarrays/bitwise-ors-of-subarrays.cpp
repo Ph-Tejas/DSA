@@ -3,9 +3,9 @@ public:
     int subarrayBitwiseORs(vector<int>& arr) {
         int n=arr.size();
 
-        set<int>st1;
-        set<int>st2;
-        set<int>new_st1;
+        unordered_set<int>st1;
+        unordered_set<int>st2;
+        unordered_set<int>new_st1;
         st1.insert(arr[0]);
         st2.insert(arr[0]);
         

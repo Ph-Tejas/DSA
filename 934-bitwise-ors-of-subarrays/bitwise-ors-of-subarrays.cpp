@@ -9,6 +9,7 @@ public:
         
         
         for(int i=0;i<n;i++){
+            new_st1.clear();
             int curr=arr[i];
             st2.insert(curr);
             new_st1.insert(curr);
@@ -16,7 +17,7 @@ public:
                 new_st1.insert(val|curr);
                 st2.insert(val|curr);
             }
-            st1=move(new_st1);
+            st1=(new_st1);
         }
         return st2.size();
     }

@@ -6,10 +6,9 @@ public:
         unordered_set<int>st1;
         unordered_set<int>st2;
         unordered_set<int>new_st1;
-        st1.insert(arr[0]);
-        st2.insert(arr[0]);
         
-        for(int i=1;i<n;i++){
+        
+        for(int i=0;i<n;i++){
             int curr=arr[i];
             st2.insert(curr);
             new_st1.insert(curr);

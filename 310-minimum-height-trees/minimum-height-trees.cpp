@@ -1,30 +1,49 @@
 class Solution {
 public:
-    int mini = 100000;
+    int mini=100000;
     vector<int> freq;
     int n;
-    vector<vector<int>> adj;
-    // pr[node] stores {{max_height_in_subtree, child_giving_it}, second_max_height}
-    vector<pair<pair<int, int>, int>> pr;
+    vector<int>parent;
+    vector<vector<int>>adj;
+    vector<pair<pair<int,int>,int>>pr;
 
-    void dfs(int node, int par) {
-        int a = 0, b = 0, c = -1;
-        for (int child : adj[node]) {
-            if (child == par) continue;
-            dfs(child, node);
-            int h = pr[child].first.first + 1;
-            if (h > a) {
-                b = a;
-                a = h;
-                c = child;
-            } else if (h > b) {
-                b = h;
-            }
+    
+
+
+
+
+
+    void dfs(int node,int par){
+        parent[node]=par;
+        int sz=adj[node].size();
+        if(sz==1&&par!=-1){
+            pr[node]={{0,n},0};
+            return;
         }
-        pr[node] = {{a, c}, b};
-    }
+        int a=0,b=0;
+        int c=n;
 
-    // upDist is the longest path starting from node going UP to its parent
+        for(int i=0;i<sz;i++){
+            if(adj[node][i]==par)continue;
+            dfs(adj[node][i],node);
+            if(pr[adj[node][i]].first.first+1>=a){
+                b=a;
+                a=pr[adj[node][i]].first.first+1;
+                c=adj[node][i];
+            }
+            else if(pr[adj[node][i]].first.first+1>b){
+                b=pr[adj[node][i]].first.first+1;
+
+            }
+
+            
+
+        }
+        pr[node]={{a,c},b};
+
+
+
+    }
     void dfs2(int node, int par, int upDist) {
         // The actual height of the tree if 'node' is the root
         int actualMax = max(pr[node].first.first, upDist);
@@ -51,19 +70,26 @@ public:
             dfs2(child, node, bestPathFromParent + 1);
         }
     }
-
     vector<int> findMinHeightTrees(int n_, vector<vector<int>>& edges) {
-        if (n_ == 1) return {0};
-        n = n_;
-        adj.assign(n, {});
-        pr.resize(n);
-        for (auto& e : edges) {
-            adj[e[0]].push_back(e[1]);
-            adj[e[1]].push_back(e[0]);
+        pr.resize(n_);
+        adj.resize(n_);
+        parent.resize(n_);
+        n=n_;
+        for(int i=0;i<edges.size();i++){
+            adj[edges[i][0]].push_back(edges[i][1]);
+            adj[edges[i][1]].push_back(edges[i][0]);
+            
+        }
+        dfs(0,-1);
+        dfs2(0,0,-1);
+        return freq;
+        for(int i=0;i<n;i++){
+            cout<<pr[i].first.first<<" "<<pr[i].first.second<<"        "<<pr[i].second<<endl;
         }
 
-        dfs(0, -1);
-        dfs2(0, -1, 0);
-        return freq;
+
+
+
     }
+
 };

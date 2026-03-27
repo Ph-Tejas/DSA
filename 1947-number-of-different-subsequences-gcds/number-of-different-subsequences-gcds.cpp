@@ -6,8 +6,7 @@ public:
         int ct=0;
         vector<bool>present(maxi+1);
         for(int i=0;i<n;i++){
-            int curr=nums[i];
-            present[curr]=true;
+            present[nums[i]]=true;
         }
 
 

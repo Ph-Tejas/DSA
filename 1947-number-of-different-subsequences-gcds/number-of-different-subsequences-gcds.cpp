@@ -1,14 +1,5 @@
 class Solution {
 public:
-    int gcd(int a,int b){
-        if(b>a){
-            int temp=a;
-            a=b;
-            b=temp;
-        }
-        if(a%b==0)return b;
-        return gcd(b,a%b);
-    }
     int countDifferentSubsequenceGCDs(vector<int>& nums) {
         int n=nums.size();
         int maxi=*max_element(nums.begin(),nums.end());
@@ -27,7 +18,7 @@ public:
                     letsGCD=j;
                 }
                 else if(present[j]){
-                    letsGCD=gcd(letsGCD,j);
+                    letsGCD=__gcd(letsGCD,j);
                     if(letsGCD==i)break;
                 }
             }

@@ -1,22 +1,14 @@
 class Solution {
 public:
     int mod=1e9+7;
-    long long binPow(long long a, long long p){
-    vector<long long> temp(62,1);
-    temp[0] = a % mod;
-
-    for(int i=1;i<=61;i++){
-        temp[i] = (temp[i-1] * temp[i-1]) % mod;
+long long binPow(long long a, long long p){
+    long long res = 1;
+    while(p){
+        if(p & 1) res = (res * a) % mod;
+        a = (a * a) % mod;
+        p >>= 1;
     }
-
-    long long mul = 1;
-    for(int i=0;i<=61;i++){
-        if((p>>i)&1){
-            mul *= temp[i];
-            mul %= mod;
-        }
-    }
-    return mul;
+    return res;
 }
     int multInv(int n){
         return binPow(n,mod-2)%mod;

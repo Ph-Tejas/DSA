@@ -12,8 +12,8 @@ public:
         sort(v.begin(),v.end(),[](vector<int>&a,vector<int>&b){
             return a[0]<b[0];
         });
-        vector<vector<int>>ans;
-        stack<vector<int>>st;
+        vector<pair<int,int>>ans;
+        stack<pair<int,int>>st;
 
         for(int i=0;i<n;i++){
             if(v[i][2]==0){
@@ -22,7 +22,7 @@ public:
                     ans.push_back({v[i][1],v[i][3]});
                 }
                 else{
-                    while((!st.empty()) && v[i][1]>st.top()[0]){
+                    while((!st.empty()) && v[i][1]>st.top().first){
                         v[i][1]-=1;
                         st.pop();
                     }
@@ -33,13 +33,13 @@ public:
                         }
                     }
                     else{
-                        if(v[i][1]==st.top()[0]){
+                        if(v[i][1]==st.top().first){
                             st.pop();
                             continue;
                         }
                         if(v[i][1]!=0){
-                            int temp=st.top()[0];
-                            int ind=st.top()[1];
+                            int temp=st.top().first;
+                            int ind=st.top().second;
                             
                             temp-=1;
                             st.pop();
@@ -58,15 +58,15 @@ public:
 
         }
         while(!st.empty()){
-            ans.push_back({st.top()[0],st.top()[1]});
+            ans.push_back({st.top().first,st.top().second});
             st.pop();
         }
-        sort(ans.begin(),ans.end(),[](vector<int>&a,vector<int>&b){
-            return a[1]<b[1];
+        sort(ans.begin(),ans.end(),[](pair<int,int>&a,pair<int,int>&b){
+            return a.second<b.second;
         });
         vector<int>fin;
         for(int i=0;i<ans.size();i++){
-            fin.push_back(ans[i][0]);
+            fin.push_back(ans[i].first);
         }
         return fin;
 

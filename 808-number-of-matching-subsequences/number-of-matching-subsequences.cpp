@@ -5,7 +5,7 @@ public:
         
         int n=s.size();
         int sz=words.size();
-        map<int,vector<int>>mp;
+        unordered_map<int,vector<int>>mp;
         for(int i=0;i<n;i++){
             mp[s[i]-'a'].push_back(i);
         }

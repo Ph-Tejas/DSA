@@ -37,7 +37,6 @@ public:
         int mini=INT_MAX;
         for(int i=0;i<n;i++){
             dp=temp;
-            dont_come=temp1;
             mini=min(mini,(fun((1<<i),i,graph)));
         }
         return mini;

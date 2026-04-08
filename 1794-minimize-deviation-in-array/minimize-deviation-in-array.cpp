@@ -3,7 +3,7 @@ public:
     int minimumDeviation(vector<int>& nums) {
         int n=nums.size();
         vector<pair<int,int>>v;
-        map<int,int>mp;
+        unordered_map<int,int>mp;
 
         for(int i=0;i<n;i++){
             int curr=nums[i];

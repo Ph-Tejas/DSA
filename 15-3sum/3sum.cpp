@@ -3,14 +3,13 @@ public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         int n=nums.size();
         sort(nums.begin(),nums.end());
-        map<int,int> frq;
+        unordered_map<int,int> frq;
         for(auto el:nums) frq[el]++;
         vector<int> a;
         a.push_back(nums[0]);
         for(int i=1;i<n;i++){
             if(nums[i]==nums[i-1]) continue;
             a.push_back(nums[i]);
-            cout<<nums[i]<<" ";
         }
         n=a.size();
         vector<vector<int>> ans;

@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<vector<int>>ans;
     int n,k;
-    void fun(int i,vector<int>l){
+    void fun(int i,vector<int>&l){
         if(l.size()==k){
             ans.push_back(l);
             return;
@@ -21,7 +21,11 @@ public:
     vector<vector<int>> combine(int n_, int k_) {
         n=n_;
         k=k_;
-        fun(1,{});
+        // for(int i=1;i<=n;i++){
+        //     vector<int>v={i};
+        vector<int>v;
+            fun(1,v);
+        // }
         return ans;
         
     }

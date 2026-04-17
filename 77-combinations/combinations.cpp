@@ -7,8 +7,8 @@ public:
             ans.push_back(l);
             return;
         }
-        if(n-i+1+l.size()<k)return;
         for(int it=i;it<=n;it++){
+            if(n-it+2+l.size()<k)continue;
             l.push_back(it);
             fun(it+1,l);
             l.pop_back();

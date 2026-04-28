@@ -3,12 +3,9 @@ public:
     vector<int> findGoodIntegers(int n) {
         map<int,int>v;
         for(int i=1;i<=1000;i++){
-            for(int j=i;j<=1000;j++){
+            for(int j=i;i*i*i+j*j*j<=n&&j<=1000;j++){
                 v[((i*i*i)+(j*j*j))]++;
-                if((i*i*i)+(j*j*j)>n){
-                    
-                    break;
-                }
+                
             }
         }
 

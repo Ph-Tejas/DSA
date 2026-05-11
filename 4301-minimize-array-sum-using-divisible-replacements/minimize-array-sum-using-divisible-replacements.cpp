@@ -1,6 +1,4 @@
-class Solution {
-public:
-    static vector<vector<int>> divisors;
+static vector<vector<int>> divisors;
     static bool built;
     static void build() {
         divisors.resize(100001);
@@ -13,6 +11,21 @@ public:
 
         built = true;
     }
+class Solution {
+public:
+    // static vector<vector<int>> divisors;
+    // static bool built;
+    // static void build() {
+    //     divisors.resize(100001);
+
+    //     for (int i = 1; i <= 100000; i++) {
+    //         for (int j = i; j <= 100000; j += i) {
+    //             divisors[j].push_back(i);
+    //         }
+    //     }
+
+    //     built = true;
+    // }
 
     long long minArraySum(vector<int>& nums) {
         int n = nums.size();
@@ -37,5 +50,5 @@ public:
         return sum;
     }
 };
-vector<vector<int>> Solution::divisors;
-bool Solution::built = false;
+// vector<vector<int>> Solution::divisors;
+// bool Solution::built = false;

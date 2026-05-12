@@ -1,6 +1,6 @@
-static vector<vector<int>> divisors;
-    static bool built;
-    static void build() {
+ vector<vector<int>> divisors;
+    bool built;
+    void build() {
         divisors.resize(100001);
 
         for (int i = 1; i <= 100000; i++) {

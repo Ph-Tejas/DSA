@@ -33,12 +33,7 @@ int n;
             tasks[i].push_back(tasks[i][1]-tasks[i][0]);
         }
         sort(tasks.begin(),tasks.end(),[](vector<int>&a,vector<int>&b){
-            if(a[2]==b[2]){
-                if(a[1]==b[1]){
-                    return a[0]<b[0];
-                }
-                return a[1]>b[1];
-            }
+            
             return a[2]>b[2];
         });
         int sum=0;

@@ -2,7 +2,7 @@ class Solution {
 public:
     int minMoves(vector<int>& nums, int limit) {
         int n=nums.size();
-        vector<int>v(200002);
+        vector<int>v(2*limit+2);
         map<int,int>mp;
         for(int i=0;i<n/2;i++){
             int a=nums[i];
@@ -11,7 +11,7 @@ public:
             v[min(a,b)+1]++;
             v[max(a,b)+limit+1]--;
         }
-        for(int i=1;i<200002;i++){
+        for(int i=1;i<2*limit+2;i++){
             v[i]=v[i-1]+v[i];
         }
 

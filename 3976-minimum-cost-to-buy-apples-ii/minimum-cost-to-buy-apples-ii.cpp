@@ -7,49 +7,43 @@ public:
     vector<int> ans;
 
     priority_queue<
-        pair<long long,long long>,
-        vector<pair<long long,long long>>,
-        greater<pair<long long,long long>>
+        pair<long long, long long>,
+        vector<pair<long long, long long>>,
+        greater<pair<long long, long long>>
     > pq;
 
     void fun(long long node, vector<int>& prices) {
 
         vector<bool> vis(N, false);
-        vector<long long> ans1(N, LLONG_MAX);
+        vector<long long> ans1(N, 1e18);
 
         pq.push({0, node});
-        ans1[node] = 0;
 
-        // First Dijkstra
+        int P = prices[node];
+
         while (!pq.empty()) {
 
             long long curr = pq.top().first;
             long long nd = pq.top().second;
+
             pq.pop();
 
             if (vis[nd]) continue;
-            vis[nd] = true;
 
-            if (curr > prices[node]) break;
+            if (curr > P) break;
+
+            ans1[nd] = curr;
+
+            vis[nd] = true;
 
             for (int i = 0; i < adj[nd].size(); i++) {
 
-                long long nxt = adj[nd][i][0];
-                long long wt = adj[nd][i][1];
+                if (vis[adj[nd][i][0]]) continue;
 
-                if (vis[nxt]) continue;
-
-                long long newDist = curr + wt;
-
-                if (newDist < ans1[nxt]) {
-
-                    ans1[nxt] = newDist;
-
-                    pq.push({
-                        newDist,
-                        nxt
-                    });
-                }
+                pq.push({
+                    curr + adj[nd][i][1],
+                    adj[nd][i][0]
+                });
             }
         }
 
@@ -59,62 +53,45 @@ public:
 
         while (!pq.empty()) pq.pop();
 
-        vector<long long> dist2(N, LLONG_MAX);
-
         pq.push({0, node});
-        dist2[node] = 0;
 
-        // Second Dijkstra
         while (!pq.empty()) {
 
             long long curr = pq.top().first;
+
             long long nd = pq.top().second;
+
             pq.pop();
 
             if (vis[nd]) continue;
-            vis[nd] = true;
 
-            if (curr > prices[node]) break;
+            if (curr > P) break;
 
-            if (ans1[nd] != LLONG_MAX) {
+            if (ans[node] > curr + ans1[nd] + prices[nd]) {
 
-                ans[node] = min(
-                    (long long)ans[node],
-                    curr + ans1[nd] + prices[nd]
-                );
+                ans[node] = curr + ans1[nd] + prices[nd];
             }
+
+            vis[nd] = true;
 
             for (int i = 0; i < adj[nd].size(); i++) {
 
-                long long nxt = adj[nd][i][0];
-                long long wt = adj[nd][i][2];
+                if (vis[adj[nd][i][0]]) continue;
 
-                if (vis[nxt]) continue;
-
-                long long newDist = curr + wt;
-
-                if (newDist < dist2[nxt]) {
-
-                    dist2[nxt] = newDist;
-
-                    pq.push({
-                        newDist,
-                        nxt
-                    });
-                }
+                pq.push({
+                    curr + adj[nd][i][2],
+                    adj[nd][i][0]
+                });
             }
         }
 
         while (!pq.empty()) pq.pop();
     }
 
-    vector<int> minCost(
-        int n,
-        vector<int>& prices,
-        vector<vector<int>>& roads
-    ) {
+    vector<int> minCost(int n, vector<int>& prices, vector<vector<int>>& roads) {
 
         N = n;
+
         sz = roads.size();
 
         adj.resize(n);

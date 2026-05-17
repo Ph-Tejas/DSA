@@ -7,9 +7,9 @@ public:
     vector<int> ans;
 
     priority_queue<
-        vector<long long>,
-        vector<vector<long long>>,
-        greater<vector<long long>>
+        pair<long long,long long>,
+        vector<pair<long long,long long>>,
+        greater<pair<long long,long long>>
     > pq;
 
     void fun(long long node, vector<int>& prices) {
@@ -23,8 +23,8 @@ public:
         // First Dijkstra
         while (!pq.empty()) {
 
-            long long curr = pq.top()[0];
-            long long nd = pq.top()[1];
+            long long curr = pq.top().first;
+            long long nd = pq.top().second;
             pq.pop();
 
             if (vis[nd]) continue;
@@ -67,8 +67,8 @@ public:
         // Second Dijkstra
         while (!pq.empty()) {
 
-            long long curr = pq.top()[0];
-            long long nd = pq.top()[1];
+            long long curr = pq.top().first;
+            long long nd = pq.top().second;
             pq.pop();
 
             if (vis[nd]) continue;

@@ -64,7 +64,7 @@ public:
 
             }
         }
-        set<int>fin;
+        unordered_set<int>fin;
         for(int i=0;i<ans.size();i++){
            
             fin.insert(ans[i]);

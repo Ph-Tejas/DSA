@@ -15,6 +15,7 @@ public:
     int distinctEchoSubstrings(string text) {
         int n=text.size();
         vector<vector<long long>>rpr(n,vector<long long>(n));
+        vector<vector<bool>>vis(n,vector<bool>(n,false));
         vector<int> ans;
         vector<long long>power(n);
         for(int i=0;i<n;i++){
@@ -46,12 +47,15 @@ public:
         }
         for(int i=0;i<n;i++){
             for(int j=i;j<n;j++){
+                if(vis[i][j])continue;
                 int ln=j-i+1;
 
                 for(int it=1;it<2;it++){
                     if(j+(it*ln)>=n || rpr[(i+(it*ln))][j+(it*ln)]!=rpr[i][j])break;
 
                 
+                    vis[(i+(it*ln))][j+(it*ln)]=true;
+                    
                     if(it&1)ans.push_back(rpr[i][j+(it*ln)]);
                     
                     

@@ -12,9 +12,6 @@ public:
 
         return res;
     }
-    long long binMod(long long a,long long b){
-        return ((a%mod)*(powy(b,mod-2)%mod))%mod;
-    }
     int distinctEchoSubstrings(string text) {
         int n=text.size();
         vector<vector<long long>>rpr(n,vector<long long>(n));
@@ -25,7 +22,12 @@ public:
             power[i]=powy(27,i)%mod;
         }
         
+        vector<long long> invPower(n);
 
+        for(int i=0;i<n;i++){
+            power[i]=powy(27,i)%mod;
+            invPower[i]=powy(power[i],mod-2)%mod;
+        }
         vector<long long>cWise(n);
         for(int i=0;i<n;i++){
             cWise[i]=1+(text[i]-'a');
@@ -38,7 +40,7 @@ public:
                 if(i==0){
                     rpr[i][j]=cWise[j];
                 }
-                else rpr[i][j]=binMod(((cWise[j]-cWise[i-1]+mod)%mod),power[i])%mod;
+                else rpr[i][j]=(((cWise[j]-cWise[i-1]+mod)%mod)*invPower[i])%mod;
                 
                 
             }

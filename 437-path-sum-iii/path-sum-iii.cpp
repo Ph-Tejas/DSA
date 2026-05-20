@@ -1,45 +1,37 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
-
 public:
     
-    int t;
-    
-    int ans=0;
-    vector<long long> postOrder(TreeNode* node){
-        if(node==NULL)return {};
-        vector<long long>l=postOrder(node->left);
-        vector<long long>r=postOrder(node->right);
-        vector<long long>v;
-        v.push_back(node->val);
-        if(node->val==t)ans++;
-        for(int i=0;i<l.size();i++){
-            if((long long)node->val+l[i]==t)ans++;
-            v.push_back((long long)node->val+l[i]);
-        }
-        for(int i=0;i<r.size();i++){
-            if((long long)node->val+r[i]==t)ans++;
-            v.push_back((long long)node->val+r[i]);
-        }
-        return v;
-        
+    long long target;
+    int ans = 0;
 
+    unordered_map<long long,int> mp;
+
+    void dfs(TreeNode* node, long long currSum) {
+        if(node == NULL) return;
+
+        currSum += node->val;
+
+        // number of previous prefix sums
+        // such that currSum - prev = target
+        ans += mp[currSum - target];
+
+        mp[currSum]++;
+
+        dfs(node->left, currSum);
+        dfs(node->right, currSum);
+
+        // backtrack
+        mp[currSum]--;
     }
-    int pathSum(TreeNode* root, int targetSum) {
-        t=targetSum;
-        postOrder(root);
-        return ans;
 
+    int pathSum(TreeNode* root, int targetSum) {
         
+        target = targetSum;
+
+        mp[0] = 1;
+
+        dfs(root, 0);
+
+        return ans;
     }
 };

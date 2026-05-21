@@ -21,64 +21,47 @@ public:
 
     }
     void join(int u,int v,int val,int ct){
-    int ult_u=findUpar(u);
-    int ult_v=findUpar(v);
+        int ult_u=findUpar(u);
+        int ult_v=findUpar(v);
 
-    if(ult_u==ult_v){
-        int old=(parent[ult_u][1]==val ? parent[ult_u][2] : 0);
+        
 
-        if(old>1){
-            ans-=((old)*(old-1))/2;
+        int cnt_u=(parent[ult_u][1]==val ? parent[ult_u][2] : 0);
+        int cnt_v=(parent[ult_v][1]==val ? parent[ult_v][2] : 0);
+
+        if(cnt_u>1){
+            ans-=((cnt_u)*(cnt_u-1))/2;
         }
 
-        old+=ct;
-
-        parent[ult_u][1]=val;
-        parent[ult_u][2]=old;
-
-        if(old>1){
-            ans+=((old)*(old-1))/2;
+        if(cnt_v>1){
+            ans-=((cnt_v)*(cnt_v-1))/2;
         }
 
-        return;
+        int newCnt=cnt_u+cnt_v+ct;
+
+        if(rank[ult_u]<rank[ult_v]){
+            parent[ult_u][0]=ult_v;
+            parent[ult_v][1]=val;
+            parent[ult_v][2]=newCnt;
+        }
+
+        else if(rank[ult_u]>rank[ult_v]){
+            parent[ult_v][0]=ult_u;
+            parent[ult_u][1]=val;
+            parent[ult_u][2]=newCnt;
+        }
+
+        else{
+            parent[ult_u][0]=ult_v;
+            parent[ult_v][1]=val;
+            parent[ult_v][2]=newCnt;
+            rank[ult_v]++;
+        }
+
+        if(newCnt>1){
+            ans+=((newCnt)*(newCnt-1))/2;
+        }
     }
-
-    int cnt_u=(parent[ult_u][1]==val ? parent[ult_u][2] : 0);
-    int cnt_v=(parent[ult_v][1]==val ? parent[ult_v][2] : 0);
-
-    if(cnt_u>1){
-        ans-=((cnt_u)*(cnt_u-1))/2;
-    }
-
-    if(cnt_v>1){
-        ans-=((cnt_v)*(cnt_v-1))/2;
-    }
-
-    int newCnt=cnt_u+cnt_v+ct;
-
-    if(rank[ult_u]<rank[ult_v]){
-        parent[ult_u][0]=ult_v;
-        parent[ult_v][1]=val;
-        parent[ult_v][2]=newCnt;
-    }
-
-    else if(rank[ult_u]>rank[ult_v]){
-        parent[ult_v][0]=ult_u;
-        parent[ult_u][1]=val;
-        parent[ult_u][2]=newCnt;
-    }
-
-    else{
-        parent[ult_u][0]=ult_v;
-        parent[ult_v][1]=val;
-        parent[ult_v][2]=newCnt;
-        rank[ult_v]++;
-    }
-
-    if(newCnt>1){
-        ans+=((newCnt)*(newCnt-1))/2;
-    }
-}
 
 
 

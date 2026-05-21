@@ -108,8 +108,8 @@ public:
         }
         r.push_back({startTime,endTime});
         c.push_back(1);
-        ranges=r;
-        ct=c;
+        ranges=move(r);
+        ct=move(c);
         return ans;
 
 

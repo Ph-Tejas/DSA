@@ -18,7 +18,8 @@ public:
         }
         int ans=1;
         bool flag=false;
-        for(int i=0;i<ranges.size();i++){
+        int n = ranges.size();
+        for(int i=0;i<n;i++){
             int rs=ranges[i].first;
             int re=ranges[i].second;
             if(flag){

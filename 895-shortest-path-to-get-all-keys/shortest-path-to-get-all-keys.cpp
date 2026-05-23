@@ -1,50 +1,53 @@
 class Solution {
 public:
+    
+    vector<vector<vector<int>>> dp;
+
+    int total;
+    int n,m;
 
     int ans = INT_MAX;
-    int n,m,total;
 
-    vector<vector<int>> dir = {{1,0},{0,1},{-1,0},{0,-1}};
+    vector<vector<int>> dir={{1,0},{0,1},{-1,0},{0,-1}};
 
-    void dfs(int i,int j,int mask,int dist,
-             vector<string>& grid,
-             vector<vector<vector<int>>>& best){
+    void fun(int i,int j,int done,int dist,vector<string>& grid){
 
-        if(dist >= ans)return;
+        if(dist>=ans)return;
 
-        char curr = grid[i][j];
+        int curr=grid[i][j];
 
-        if(curr>='a' && curr<='z'){
-            mask |= (1<<(curr-'a'));
+        if(curr<='z'&&curr>='a'){
+            done|=(1<<(curr-'a'));
         }
 
-        if(mask==total){
+        if(done==total){
             ans=min(ans,dist);
             return;
         }
 
-        if(best[i][j][mask] <= dist)return;
+        if(dp[i][j][done]<=dist){
+            return;
+        }
 
-        best[i][j][mask]=dist;
+        dp[i][j][done]=dist;
 
-        for(int k=0;k<4;k++){
+        for(int it=0;it<4;it++){
 
-            int nx=i+dir[k][0];
-            int ny=j+dir[k][1];
+            int nx=i+dir[it][0];
+            int ny=j+dir[it][1];
 
-            if(nx<0 || ny<0 || nx>=n || ny>=m)continue;
+            if(nx<n&&nx>=0&&ny<m&&ny>=0 && grid[nx][ny]!='#'){
 
-            char nxt = grid[nx][ny];
+                int nxt=grid[nx][ny];
 
-            if(nxt=='#')continue;
-
-            if(nxt>='A' && nxt<='Z'){
-                if((mask & (1<<(nxt-'A')))==0){
-                    continue;
+                if(nxt<='Z'&&nxt>='A'){
+                    if((done & (1<<(nxt-'A')))==0){
+                        continue;
+                    }
                 }
-            }
 
-            dfs(nx,ny,mask,dist+1,grid,best);
+                fun(nx,ny,done,dist+1,grid);
+            }
         }
     }
 
@@ -53,18 +56,21 @@ public:
         n=grid.size();
         m=grid[0].size();
 
-        int sr,sc;
+        int st_r,st_c;
+
         int k=0;
 
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
 
-                if(grid[i][j]=='@'){
-                    sr=i;
-                    sc=j;
+                char curr=grid[i][j];
+
+                if(curr=='@'){
+                    st_r=i;
+                    st_c=j;
                 }
 
-                else if(grid[i][j]>='a' && grid[i][j]<='z'){
+                else if(curr>='a'&&curr<='z'){
                     k++;
                 }
             }
@@ -72,13 +78,13 @@ public:
 
         total=(1<<k)-1;
 
-        vector<vector<vector<int>>> best(
+        dp.resize(
             n,
             vector<vector<int>>(m,vector<int>((1<<k),INT_MAX))
         );
 
-        dfs(sr,sc,0,0,grid,best);
+        fun(st_r,st_c,0,0,grid);
 
-        return ans==INT_MAX ? -1 : ans;
+        return (ans==INT_MAX)?-1:ans;
     }
 };

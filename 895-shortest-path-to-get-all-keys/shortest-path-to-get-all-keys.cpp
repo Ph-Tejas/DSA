@@ -19,7 +19,12 @@ public:
         if(curr<='z'&&curr>='a'){
             done|=(1<<(curr-'a'));
         }
-
+        if(curr<='Z'&&curr>='A'){
+            if((done & (1<<(curr-'A')))==0){
+                        return;
+                    }
+        }
+        
         if(done==total){
             ans=min(ans,dist);
             return;
@@ -38,13 +43,7 @@ public:
 
             if(nx<n&&nx>=0&&ny<m&&ny>=0 && grid[nx][ny]!='#'){
 
-                int nxt=grid[nx][ny];
 
-                if(nxt<='Z'&&nxt>='A'){
-                    if((done & (1<<(nxt-'A')))==0){
-                        continue;
-                    }
-                }
 
                 fun(nx,ny,done,dist+1,grid);
             }

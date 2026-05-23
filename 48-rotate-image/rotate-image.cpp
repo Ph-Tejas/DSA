@@ -3,7 +3,7 @@ public:
     void fun(int I,int J,vector<vector<int>>& matrix){
         int sz=(J-I)*4;
         int ln=J-I;
-        map<int,pair<pair<int,int>,int>>mp;
+        unordered_map<int,pair<pair<int,int>,int>>mp;
         int ct=0;
         for(int i=I;i<=J;i++){
             // loc.push_back(matrix[I][i]);

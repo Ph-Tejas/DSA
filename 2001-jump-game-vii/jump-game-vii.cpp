@@ -19,10 +19,10 @@ public:
         stack<int>q;
         result[n-1]=true;
         q.push(n-1);
+        if(result[0]==true)return true;
         while(!q.empty()){
             int ind=q.top();
             q.pop();
-            if(ind==0)return true;
             for(int i=max(0,ind-mx);i<=ind-mn;i++){
                 if(s[i]=='1'){
                     i=loc[i]-1;
@@ -31,6 +31,8 @@ public:
                 if(result[i]==true)break;
                 result[i]=true;
                 q.push(i);
+                if(i==0)return true;
+
             }
         }
         return false;

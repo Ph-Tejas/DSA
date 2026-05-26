@@ -1,48 +1,31 @@
 class Solution {
 public:
     int N,mx;
-    bool dijkstra_in(int src,int dest,int mask,
-                 vector<vector<pair<int,int>>>& adj){
-
-    vector<int> dist(N,INT_MAX);
-
-    priority_queue<
-        pair<int,int>,
-        vector<pair<int,int>>,
-        greater<pair<int,int>>
-    > pq;
-
-    dist[src]=0;
-    pq.push({0,src});
-
-    while(!pq.empty()){
-
-        auto [d,node]=pq.top();
-        pq.pop();
-
-        if(d>dist[node]) continue;
-
-        if(d>mx) continue;
-
-        if(node==dest) return true;
-
-        for(auto &it:adj[node]){
-
-            int nxt=it.first;
-            int wt=it.second;
-
-            if(((mask>>nxt)&1)==0) continue;
-
-            if(dist[nxt]>d+wt){
-
-                dist[nxt]=d+wt;
-                pq.push({dist[nxt],nxt});
+    bool dijkstra_in(int i,int j,int vis,vector<vector<pair<int,int>>>&adj){
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+        pq.push({0,i});
+        while(!pq.empty()){
+            int node=pq.top().second;
+            int dist=pq.top().first;
+            pq.pop();
+            if(((vis>>node)&1)==0)continue;
+            vis=(vis & (~(1<<node))); 
+            if(node==j && dist <= mx){
+                return true;
             }
-        }
-    }
+            if(node==j && dist>mx){
+                return false;
+            }
+            for(int it=0;it<adj[node].size();it++){
+                int nxt=adj[node][it].first;
+                if(((vis>>nxt)&1)==0)continue;
+                pq.push({dist+adj[node][it].second,nxt});
 
-    return false;
-}
+            }
+
+        }
+        return false;
+    }
 
     bool dijkstra_out(int vis,vector<vector<pair<int,int>>>&adj){
         

@@ -17,11 +17,12 @@ public:
     void join(int u,int v){
         int uu=findUpar(u);
         int uv=findUpar(v);
+
         if(uu==uv)return;
         if(rank[uu]>rank[uv]){
             parent[uv]=uu;
         }
-        if(rank[uu]<rank[uv]){
+        else if(rank[uu]<rank[uv]){
             parent[uu]=uv;
         }
         else{
@@ -34,8 +35,11 @@ class Solution {
 public:
 
     vector<bool> areConnected(int n, int threshold, vector<vector<int>>& queries) {
-        
+        if(threshold==0){
+    return vector<bool>(queries.size(), true);
+}
         DSU ds(n+1);
+        
         for(int i=threshold+1;i<=n;i++){
             
             for(int j=i+i;j<=n;j+=i){

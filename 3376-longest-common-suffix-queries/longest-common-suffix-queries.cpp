@@ -1,8 +1,3 @@
-struct hash_pair {
-    size_t operator()(const pair<long long,long long>& p) const {
-        return hash<long long>()(p.first) ^ (hash<long long>()(p.second) << 1);
-    }
-};
 
 class Solution {
 public:
@@ -19,10 +14,9 @@ public:
 
         // MINIMAL CHANGE:
         // store only best {size,index}
-        unordered_map<
+        map<
             pair<long long,long long>,
-            pair<long long,long long>,
-            hash_pair
+            pair<long long,long long>
         > mp;
 
         // MINIMAL CHANGE:
@@ -68,8 +62,6 @@ public:
 
                 pair<long long,long long> key={nw1,nw2};
 
-                // MINIMAL CHANGE:
-                // directly keep best answer
                 if(mp.find(key)==mp.end()){
                     mp[key]={sz,j};
                 }

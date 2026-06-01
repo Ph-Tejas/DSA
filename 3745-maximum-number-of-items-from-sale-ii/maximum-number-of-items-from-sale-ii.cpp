@@ -1,18 +1,14 @@
 class Solution {
 public:
-    struct Node {
-        double cost;
-        int power;
-        int price;
-        int idx;
-    };
-
     int maximumSaleItems(vector<vector<int>>& items, int budget) {
         int n = items.size();
 
+        long long minPrice = LLONG_MAX;
         int mx = 0;
-        for (auto &x : items) {
-            mx = max(mx, x[0]);
+
+        for (int i = 0; i < n; i++) {
+            minPrice = min(minPrice, (long long)items[i][1]);
+            mx = max(mx, items[i][0]);
         }
 
         vector<int> freq(mx + 1, 0);
@@ -37,58 +33,35 @@ public:
 
         vector<int> available(n);
 
-        vector<Node> v;
-        v.reserve(2 * n);
+        map<int, long long> groupedFreq;
 
         for (int i = 0; i < n; i++) {
             available[i] = possible[items[i][0]];
 
             int price = items[i][1];
 
-            v.push_back({(double)price, 1, price, i});
+            // same optimization as the accepted solution
+            if (price >= 2 * minPrice) continue;
 
             if (available[i] > 0) {
-                v.push_back({price / 2.0, 2, price, i});
+                groupedFreq[price] += available[i];
             }
         }
 
-        sort(v.begin(), v.end(), [](const Node& a, const Node& b) {
-            if (a.cost != b.cost)
-                return a.cost < b.cost;
+        long long bonus = 0;
+        long long currentBudget = budget;
 
-            if (a.power != b.power)
-                return a.power > b.power;
+        for (auto &[price, ct] : groupedFreq) {
+            if (currentBudget < price) continue;
 
-            return a.price < b.price;
-        });
+            long long canBuy = min(ct, currentBudget / price);
 
-        int ans = 0;
-
-        for (auto &cur : v) {
-            long long power = cur.power;
-            long long price = cur.price;
-            int idx = cur.idx;
-
-            if (power == 2) {
-                if (price > budget) continue;
-
-                long long avail = available[idx];
-                long long totalCost = avail * price;
-
-                if (totalCost <= budget) {
-                    ans += avail * 2;
-                    budget -= totalCost;
-                } else {
-                    long long can = budget / price;
-                    ans += can * 2;
-                    budget -= can * price;
-                }
-            } else {
-                ans += budget / price;
-                break;
-            }
+            currentBudget -= canBuy * price;
+            bonus += canBuy;
         }
 
-        return ans;
+        long long base = currentBudget / minPrice;
+
+        return (int)(2 * bonus + base);
     }
 };

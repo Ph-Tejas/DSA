@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<bool>vis;
 
-    void build(string s,set<string>&toCheck,int &sz,vector<string>&available){
+    void build(string s,unordered_set<string>&toCheck,int &sz,vector<string>&available){
         
         
         if(count(vis.begin(),vis.end(),true)==sz)return;
@@ -42,7 +42,7 @@ public:
         }
         int sz=available.size();
         vis.resize(sz,false);
-        set<string>toCheck;
+        unordered_set<string>toCheck;
         for(int i=0;i<sz;i++){
             toCheck.insert(available[i]);
             vis[i]=true;

@@ -2,7 +2,7 @@ class FreqStack {
 public:
     int timer;
     priority_queue<vector<int>>pq;
-    map<int,int>mp;
+    unordered_map<int,int>mp;
 
     FreqStack() {
         timer=0;

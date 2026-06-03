@@ -1,25 +1,74 @@
 class Solution {
 public:
-    int fun(int i,int j,int &tot,vector<vector<int>>&dp,vector<int>& slices,int pic){
-        
-        if(pic==tot)return 0;
-        if(i>j)return INT_MIN;
-        if(dp[i][pic]!=-1)return dp[i][pic];
-        int not_pick=fun(i+1,j,tot,dp,slices,pic);
-        int pick=slices[i]+fun(i+2,j,tot,dp,slices,pic+1);
-        return dp[i][pic]=max(pick,not_pick);
+    struct Node {
+        int value;
+        Node* left;
+        Node* right;
+        bool deleted;
 
-        
-    }
+        Node(int v)
+            : value(v), left(nullptr), right(nullptr), deleted(false) {}
+    };
+
+    struct Compare {
+        bool operator()(Node* a, Node* b) const {
+            return a->value < b->value; // max heap
+        }
+    };
+
     int maxSizeSlices(vector<int>& slices) {
-        int n=slices.size();
-        int k=n/3;
-        vector<vector<int>>dp1(n,vector<int>(k+1,-1));
-        vector<vector<int>>dp2(n,vector<int>(k+1,-1));
-        
-        int ans1=fun(0,n-2,k,dp1,slices,0);
-        int ans2=fun(1,n-1,k,dp2,slices,0);
-        return max(ans1,ans2);
-        
+        int n = slices.size();
+
+        vector<Node*> nodes;
+        nodes.reserve(n);
+
+        for (int x : slices) {
+            nodes.push_back(new Node(x));
+        }
+
+        // Circular doubly linked list
+        for (int i = 0; i < n; i++) {
+            nodes[i]->left = nodes[(i - 1 + n) % n];
+            nodes[i]->right = nodes[(i + 1) % n];
+        }
+
+        priority_queue<Node*, vector<Node*>, Compare> pq;
+
+        for (auto node : nodes) {
+            pq.push(node);
+        }
+
+        int total = 0;
+        int remainingSlices = n / 3;
+
+        while (remainingSlices) {
+            Node* bestNode = pq.top();
+            pq.pop();
+
+            if (bestNode->deleted) continue;
+
+            remainingSlices--;
+            total += bestNode->value;
+
+            // Delete left and right nodes
+            bestNode->left->left->right = bestNode;
+            bestNode->right->right->left = bestNode;
+
+            bestNode->left->deleted = true;
+            bestNode->right->deleted = true;
+
+            // Trade-in value
+            bestNode->value =
+                bestNode->left->value +
+                bestNode->right->value -
+                bestNode->value;
+
+            bestNode->left = bestNode->left->left;
+            bestNode->right = bestNode->right->right;
+
+            pq.push(bestNode);
+        }
+
+        return total;
     }
 };

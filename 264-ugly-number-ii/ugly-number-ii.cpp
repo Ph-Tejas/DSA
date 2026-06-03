@@ -38,6 +38,7 @@ public:
                         num/=power5[k];
                     }
                 }
+                else break;
                 num/=power3[j];
             }
         }

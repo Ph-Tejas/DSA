@@ -2,7 +2,7 @@ class Solution {
 public:
     int n;
     vector<long long>powy;
-    long long LetsDoIt(string &s,int sz,int prev,int tight,int shouldAdd,int didStart,vector<vector<vector<vector<vector<long long>>>>>&dp){
+    long long LetsDoIt(string &s,int sz,int prev,int tight,int shouldAdd,int didStart,   long long (&dp)[20][10][2][3][2]){
         if(sz==0)return 0;
         if(dp[sz][prev][tight][shouldAdd][didStart]!=-1)return dp[sz][prev][tight][shouldAdd][didStart];
         int curr=s[n-sz]-'0';
@@ -78,7 +78,7 @@ public:
 
 
     }
-    long long fun(long long num,vector<vector<vector<vector<vector<long long>>>>>&dp){
+    long long fun(long long num,   long long (&dp)[20][10][2][3][2]){
         string s=to_string(num);
         n=s.size();
 
@@ -150,12 +150,11 @@ public:
         for(int i=0;i<17;i++){
             powy.push_back(powy[i]*10);
         }
-        
-    //sz=16, prev= 10, tight=2, shouldAdd=3, didStart=2;
-        vector<vector<vector<vector<vector<long long>>>>>dp1,dp2;
-        dp1.resize(20,vector<vector<vector<vector<long long>>>>(10,vector<vector<vector<long long>>>(2,vector<vector<long long>>(3,vector<long long>(2,-1)))));
-        
-        dp2.resize(20,vector<vector<vector<vector<long long>>>>(10,vector<vector<vector<long long>>>(2,vector<vector<long long>>(3,vector<long long>(2,-1)))));
+        long long dp1[20][10][2][3][2];
+long long dp2[20][10][2][3][2];
+
+memset(dp1,-1,sizeof(dp1));
+memset(dp2,-1,sizeof(dp2));
         return fun(num2,dp1)-fun(num1-1,dp2);
     }
 };

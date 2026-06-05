@@ -1,16 +1,7 @@
 class Solution {
 public:
     int n;
-    long long stoii(string s){
-        long long mul=1;
-        int nz=s.size();
-        long long ans=0;
-        for(int i=nz-1;i>-1;i--){
-            ans+=(s[i]-'0')*mul;
-            mul*=10;
-        }
-        return ans;
-    }
+    vector<long long>powy;
     long long LetsDoIt(string &s,int sz,int prev,int tight,int shouldAdd,int didStart,vector<vector<vector<vector<vector<long long>>>>>&dp){
         if(sz==0)return 0;
         if(dp[sz][prev][tight][shouldAdd][didStart]!=-1)return dp[sz][prev][tight][shouldAdd][didStart];
@@ -22,13 +13,13 @@ public:
                 
                 if(shouldAdd==2){
                     if(it!=curr){
-                        ans+=pow(10,sz-1);
+                        ans+=powy[sz-1];
                     }
                     else{
                         if(n-sz+1!=n){
                             
                             string str=s.substr(n-sz+1);
-                            long long state=stoii(str);
+                            long long state=stoll(str);
                             ans+=state+1;
                         }
                         else ans++;
@@ -44,12 +35,12 @@ public:
                 for(it;it<curr+1;it++){
                     if(shouldAdd==1){
                         if(it!=curr){
-                            ans+=pow(10,sz-1);
+                            ans+=powy[sz-1];
                         }
                         else{
                             if(n-sz+1!=n){
                                 string str=s.substr(n-sz+1);
-                                long long state=stoii(str);
+                                long long state=stoll(str);
                                 ans+=state+1;
                             }
                             else ans++;
@@ -63,7 +54,7 @@ public:
             curr=9;
             for(it;it<min(prev,curr+1);it++){
                 if(shouldAdd==2){
-                    ans+=pow(10,sz-1);
+                    ans+=powy[sz-1];
                     
                 }
                 ans+=LetsDoIt(s,sz-1,it,0,(didStart==1)?1:0,((didStart)||(!didStart && it!=0))?1:0,dp);
@@ -75,7 +66,7 @@ public:
                 }
                 for(it;it<curr+1;it++){
                     if(shouldAdd==1){
-                        ans+=pow(10,sz-1);
+                        ans+=powy[sz-1];
                     }
                     ans+=LetsDoIt(s,sz-1,it,0,(didStart==1)?2:0,((didStart)||(!didStart && it!=0))?1:0,dp);
                 }
@@ -155,7 +146,10 @@ public:
     
     
     long long totalWaviness(long long num1, long long num2) {
-        
+        powy.push_back(1);
+        for(int i=0;i<17;i++){
+            powy.push_back(powy[i]*10);
+        }
         
     //sz=16, prev= 10, tight=2, shouldAdd=3, didStart=2;
         vector<vector<vector<vector<vector<long long>>>>>dp1,dp2;

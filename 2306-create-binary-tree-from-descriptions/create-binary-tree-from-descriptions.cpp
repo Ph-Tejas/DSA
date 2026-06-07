@@ -13,8 +13,8 @@ class Solution {
 public:
     TreeNode* createBinaryTree(vector<vector<int>>& description) {
         int n=description.size();
-        map<int,TreeNode*>mp;
-        set<int>st;
+        unordered_map<int,TreeNode*>mp;
+        unordered_set<int>st;
         for(int i=0;i<n;i++){
             int curr=description[i][1];
             mp[curr]=new TreeNode(curr);

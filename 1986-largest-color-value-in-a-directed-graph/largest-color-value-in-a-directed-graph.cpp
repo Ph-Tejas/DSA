@@ -64,7 +64,6 @@ public:
         }
         for(int i=0;i<n;i++){
             
-            vector<int>v(26);
             
             int mx=0;
             for(int k=0;k<26;k++){

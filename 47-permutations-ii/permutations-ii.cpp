@@ -1,6 +1,6 @@
 class Solution {
 public:
-    map<int,int>mp;
+    unordered_map<int,int>mp;
     int n;
     void fun(vector<int>& nums,int i,vector<vector<int>>&ans,vector<int>v){
         if(i==n){

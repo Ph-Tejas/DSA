@@ -4,7 +4,7 @@ public:
         int n=nums.size();
         vector<vector<int>>v(n,vector<int>(2));
         v[0][nums[0]]++;
-        map<int,int>mp;
+        unordered_map<int,int>mp;
         mp[v[0][0]-v[0][1]]=0;
         for(int i=1;i<n;i++){
             v[i][0]=v[i-1][0];

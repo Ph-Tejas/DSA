@@ -27,7 +27,6 @@ public:
             long long sz=szz;
             long long K=k;
             char ch=i+'a';
-            if(count(s.begin(),s.end(),ch)==0)continue;
             
             int it=n-1;
             bool flag=false;

@@ -28,7 +28,7 @@ public:
             long long K=k;
             char ch=i+'a';
             if(count(s.begin(),s.end(),ch)==0)continue;
-            cout<<ch;
+            
             int it=n-1;
             bool flag=false;
             while(it>-1){

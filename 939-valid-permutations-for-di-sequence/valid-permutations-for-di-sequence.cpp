@@ -3,7 +3,7 @@ public:
     int mod=1e9+7;
     int n;
     vector<bool>vis;
-    vector<vector<long long>>dp;
+    int dp[202][202];
     long long fun(int i,int prev,string &s){
         if(i==n){
             return 1;
@@ -36,7 +36,7 @@ public:
     int numPermsDISequence(string s) {
         n=s.size();
         vis.resize(n+1,true);
-        dp.resize(n+1,vector<long long>(n+1,-1));
+        memset(dp,-1,sizeof(dp));
         
         long long ans=0;
         for(int num=0;num<=n;num++){

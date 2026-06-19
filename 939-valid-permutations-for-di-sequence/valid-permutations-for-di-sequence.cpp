@@ -2,7 +2,7 @@ class Solution {
 public:
     int mod=1e9+7;
     int n;
-    vector<bool>vis;
+    bool vis[202];
     int dp[202][202];
     long long fun(int i,int prev,string &s){
         if(i==n){
@@ -35,8 +35,8 @@ public:
     }
     int numPermsDISequence(string s) {
         n=s.size();
-        vis.resize(n+1,true);
         memset(dp,-1,sizeof(dp));
+        memset(vis,true,sizeof(vis));
         
         long long ans=0;
         for(int num=0;num<=n;num++){

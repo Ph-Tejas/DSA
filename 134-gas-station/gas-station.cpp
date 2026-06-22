@@ -24,7 +24,7 @@ public:
         for(int i=(ind+1)%n;i!=ind;i++,i%=n){
             
             curr+=gass[i];
-            cout<<curr;
+            
             if(curr<0)return -1;
         }
         return ind;

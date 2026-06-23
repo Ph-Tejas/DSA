@@ -7,7 +7,6 @@ public:
             st.insert(nums[i]);
         }
         int anas=0;
-        int ct=1e9;
         while(!st.empty()){
             auto it=st.begin();
             int val=(*it);

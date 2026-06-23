@@ -39,7 +39,7 @@ public:
         powers.resize(eachn+1);
         int sz=s.size();
         
-        map<int,int>nums;
+        unordered_map<int,int>nums;
         for(int i=0;i<eachn+1;i++){
             powers[i]=powy(27,i);
             // cout<<powers[i]<<" ";
@@ -78,7 +78,7 @@ public:
         for (int i = 0; i + totalLen <= originalSize; i++) {
 
             bool flag = true;
-            map<int, int> mp = nums;
+            unordered_map<int, int> mp = nums;
 
             for (int j = i; j < i + totalLen; j += eachn) {
 

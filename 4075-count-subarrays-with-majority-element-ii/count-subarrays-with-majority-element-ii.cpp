@@ -16,13 +16,13 @@ public:
             ind[0]=1;
             mp[pf[0]]++;
             ans+=ind[0];
-            cout<<ans;
+            // cout<<ans;
         }
         else{
             ind[0]=0;
             mp[pf[0]]++;
             ans+=ind[0];
-            cout<<ans;
+            // cout<<ans;
         }
         for(int i=1;i<n;i++){
             if(pf[i]<pf[i-1]){
@@ -35,7 +35,7 @@ public:
             }
             mp[pf[i]]++;
             ans+=ind[i];
-            cout<<ans;
+            // cout<<ans;
         }
         return ans;
     }

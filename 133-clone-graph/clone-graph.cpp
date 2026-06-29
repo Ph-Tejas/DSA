@@ -21,7 +21,7 @@ public:
 
 class Solution {
 public:
-    map<int,Node*>mp;
+    unordered_map<int,Node*>mp;
     Node* build(Node* node){
         if(node==NULL){
             return node;

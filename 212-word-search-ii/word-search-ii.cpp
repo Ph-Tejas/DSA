@@ -13,7 +13,7 @@ public:
     int n,m;
     vector<vector<bool>>vis;
 
-    set<string>ans;
+    unordered_set<string>ans;
     vector<vector<int>>dir={{0,1},{0,-1},{-1,0},{1,0}};
     void dfs(Trie* tr,string &s,int &sz,int idx){
         if(idx==sz){

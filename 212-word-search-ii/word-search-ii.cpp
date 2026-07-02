@@ -11,10 +11,10 @@ public:
 class Solution {
 public:
     int n,m;
-    vector<vector<bool>>vis;
+    bool vis[13][13];
 
     vector<string>ans;
-    vector<vector<int>>dir={{0,1},{0,-1},{-1,0},{1,0}};
+    const int dir[4][2]={{0,1},{0,-1},{-1,0},{1,0}};
     void dfs(Trie* tr,string &s,int &sz,int idx){
         if(idx==sz){
             tr->flag=true;  
@@ -60,7 +60,7 @@ public:
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
         n=board.size();
         m=board[0].size();
-        vis.resize(n,vector<bool>(m,false));
+        memset(vis,false,sizeof(vis));
         Trie* tr=new Trie();
         
 

@@ -13,7 +13,7 @@ public:
     int n,m;
     vector<vector<bool>>vis;
 
-    unordered_set<string>ans;
+    vector<string>ans;
     vector<vector<int>>dir={{0,1},{0,-1},{-1,0},{1,0}};
     void dfs(Trie* tr,string &s,int &sz,int idx){
         if(idx==sz){
@@ -36,7 +36,8 @@ public:
 
         if(tr->collection[ch]!=NULL){
             if(tr->collection[ch]->flag==true){
-                ans.insert(s);
+                ans.push_back(s);
+                tr->collection[ch]->flag=false;
 
             }
             
@@ -77,10 +78,6 @@ public:
 
             }
         }
-        vector<string>fin;
-        for(auto &s:ans){
-            fin.push_back(s);
-        }
-        return fin;
+        return ans;
     }
 };

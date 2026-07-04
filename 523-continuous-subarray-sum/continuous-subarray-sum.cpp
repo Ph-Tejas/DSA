@@ -2,7 +2,7 @@ class Solution {
 public:
     bool checkSubarraySum(vector<int>& nums, int k) {
         int n=nums.size();
-        map<int,int>mp;
+        unordered_map<int,int>mp;
         mp[0]++;
         nums[0]%=k;
         for(int i=1;i<n;i++){

@@ -4,24 +4,31 @@ public:
 
     vector<vector<int>>dir={{0,1},{0,-1},{-1,0},{1,0}};
     int n,m;
-    bool fun(int i,int j,vector<vector<int>>& grid){
-        grid[i][j]=2;
-        bool ans=true;
-        for(int d=0;d<4;d++){
-            int ni=i+dir[d][0];
-            int nj=j+dir[d][1];
-            if(ni>-1&&nj>-1&&ni<n&&nj<m){
-                if(grid[ni][nj]==2 || grid[ni][nj]==1)continue;
-                ans=(ans&fun(ni,nj,grid));
+    bool fun(int r, int c, vector<vector<int>>& grid){
 
-            }
-            else{
-                ans=false;
-            }
+        // Outside grid -> island is open
+        if(r < 0 || r >= n || c < 0 || c >= m)
+            return false;
+
+        // Water or already visited
+        if(grid[r][c] == 1)
+            return true;
+
+        // Mark visited
+        grid[r][c] = 1;
+
+        bool closed = true;
+
+        for(int d = 0; d < 4; d++){
+            int nr = r + dir[d][0];
+            int nc = c + dir[d][1];
+
+            closed = fun(nr, nc, grid) && closed;
         }
-        return ans;
 
+        return closed;
     }
+
     int closedIsland(vector<vector<int>>& grid) {
         n=grid.size();
         m=grid[0].size();

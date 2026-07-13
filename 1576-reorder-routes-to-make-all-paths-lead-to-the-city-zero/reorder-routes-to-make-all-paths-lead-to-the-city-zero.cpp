@@ -28,10 +28,6 @@ public:
             }
         }
         int ans=0;
-        for(auto val:st){
-            cout<<val.first<<" "<<val.second<<endl;
-        }
-    
         for(int i=0;i<sz;i++){
             int a=connections[i][0];
             int b=connections[i][1];

@@ -4,7 +4,7 @@ public:
     int longestArithSeqLength(vector<int>& nums) {
         int n=nums.size();
         
-        vector<map<int,int>>adj(n);
+        vector<unordered_map<int,int>>adj(n);
         int ans=2;
         for(int i=0;i<n-1;i++){
             adj[i][nums[n-1]-nums[i]]=2;

@@ -4,7 +4,7 @@ public:
         int n=nums.size();
 
         vector<int>dp(n);
-        map<int,int>mp;
+        unordered_map<int,int>mp;
         mp[0]=-1;
         int prev=0;
         for(int i=0;i<n;i++){
@@ -31,7 +31,7 @@ public:
             // cout<<prev<<" ";
 
             mp[prev]=i;
-            cout<<dp[i]<<" ";
+            // cout<<dp[i]<<" ";
         }
         
         return dp[n-1];

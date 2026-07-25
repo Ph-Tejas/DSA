@@ -1,32 +1,21 @@
 class Solution {
 public:
-    int mod=1e9+7;
-    int threeSumMulti(vector<int>& arr, int target) {
-        int n=arr.size();
-        sort(arr.begin(),arr.end());
-        
-        unordered_map<int,int>mp;
-        
-        unordered_map<int,int>pr;
-        int it1=-1,it2=-1;
-        for(int i=0;i<n;i++){
-            mp[arr[i]]++;
-            pr[arr[i]]=i;
-        }
-        
-        long long ans=0;
-        for(int i=0;i<n;i++){
-            for(int j=i+1;j<n;j++){
-                int a=arr[i];
-                int b=arr[j];
-                if(a+b>target)break;
-                int c=target-a-b;
-                if(c<b)break;
-                ans+= min((max(pr[c]-j,0)),mp[c]);
-                ans%=mod;
-
+    int threeSumMulti(vector<int>& A, int target) {
+        unordered_map<int, long> c;
+        int mod = 1e9 + 7;
+        for (int a : A) c[a]++;
+        long res = 0;
+        for (auto it : c)
+            for (auto it2 : c) {
+                int i = it.first, j = it2.first, k = target - i - j;
+                if (!c.count(k)) continue;
+                if (i == j && j == k)
+                    res += c[i] * (c[i] - 1) * (c[i] - 2) / 6;
+                else if (i == j && j != k)
+                    res += c[i] * (c[i] - 1) / 2 * c[k];
+                else if (i < j && j < k)
+                    res += c[i] * c[j] * c[k];
             }
-        }
-        return ans;
+        return res % mod;
     }
 };

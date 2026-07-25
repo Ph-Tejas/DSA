@@ -12,7 +12,7 @@ public:
         for(int i = start; i < n; i++) {
             if (used[i] || matchsticks[i] > target) continue;
             
-            if (i > 0 && matchsticks[i] == matchsticks[i-1] && !used[i-1]) continue;
+            // if (i > 0 && matchsticks[i] == matchsticks[i-1] && !used[i-1]) continue;
             
             used[i] = true;
             if (help(matchsticks, target - matchsticks[i], original_target, used, sides_done, i + 1)) {

@@ -2,7 +2,7 @@ class Solution {
 public:
     int ct=0;
     vector<int>p;
-    void check(int a,int b,vector<vector<int>>&vmp,int &n,vector<vector<int>>& preferences){
+    void check(int a,int b,int (&vmp)[501][501],int &n,vector<vector<int>>& preferences){
         for(auto &val:preferences[a]){
             
             if(val==b)break;
@@ -14,7 +14,7 @@ public:
         }
     }
     int unhappyFriends(int n, vector<vector<int>>& preferences, vector<vector<int>>& pairs) {
-        vector<vector<int>>vmp(n,vector<int>(n));
+        int vmp[501][501];
         p.resize(n);
 
         int sz=pairs.size();

@@ -23,6 +23,7 @@ public:
 
             if (vis[i][j][atp]) continue;
             vis[i][j][atp] = true;
+            
             if (dist[i][j][atp] <= cost) continue;
             else dist[i][j][atp] = cost;
 

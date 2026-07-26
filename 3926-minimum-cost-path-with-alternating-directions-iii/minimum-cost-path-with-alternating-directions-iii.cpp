@@ -2,95 +2,77 @@ class Solution {
 public:
     long long minCost(int n, int m, vector<vector<int>>& penalty) {
 
-        priority_queue<vector<long long>,
-                       vector<vector<long long>>,
-                       greater<vector<long long>>> pq;
+        priority_queue<
+            pair<long long, pair<pair<long long, long long>, long long>>,
+            vector<pair<long long, pair<pair<long long, long long>, long long>>>,
+            greater<pair<long long, pair<pair<long long, long long>, long long>>>
+        > pq;
 
-        vector<vector<vector<long long>>> dist(
-            n, vector<vector<long long>>(m, vector<long long>(2, LLONG_MAX)));
+        vector<vector<vector<bool>>> vis(n, vector<vector<bool>>(m, vector<bool>(2)));
+        vector<vector<vector<long long>>> dist(n, vector<vector<long long>>(m, vector<long long>(2, LLONG_MAX)));
 
-        dist[0][0][1] = 1;
-        pq.push({1, 0, 0, 1});
+        pq.push({1, {{0, 0}, 1}});
 
         while (!pq.empty()) {
+            long long cost = pq.top().first;
+            long long i = pq.top().second.first.first;
+            long long j = pq.top().second.first.second;
+            long long atp = pq.top().second.second;
 
-            auto cur = pq.top();
             pq.pop();
 
-            long long cost = cur[0];
-            int i = cur[1];
-            int j = cur[2];
-            int atp = cur[3];
+            if (vis[i][j][atp]) continue;
+            vis[i][j][atp] = true;
+            if (dist[i][j][atp] <= cost) continue;
+            else dist[i][j][atp] = cost;
 
-            if (cost != dist[i][j][atp]) continue;
+            if (i == n - 1 && j == m - 1) return cost;
 
-            if (i == n - 1 && j == m - 1)
-                return cost;
-
-            // Stay
-            long long newCost = cost + penalty[i][j];
-            if (newCost < dist[i][j][!atp]) {
-                dist[i][j][!atp] = newCost;
-                pq.push({newCost, i, j, !atp});
+            if (!vis[i][j][!atp] && dist[i][j][!atp] > cost + penalty[i][j]) {
+                pq.push({cost + penalty[i][j], {{i, j}, !atp}});
             }
 
-            // Down
-            if (i + 1 < n) {
+            if (i + 1 < n && (!vis[i + 1][j][!atp]) &&
+                dist[i + 1][j][!atp] > cost + ((i + 2) * (j + 1))) {
                 if (atp) {
-                    newCost = cost + (long long)(i + 2) * (j + 1);
+                    pq.push({cost + ((i + 2) * (j + 1)), {{i + 1, j}, !atp}});
                 } else {
-                    newCost = cost + penalty[i][j] +
-                              (long long)(i + 2) * (j + 1);
-                }
-
-                if (newCost < dist[i + 1][j][!atp]) {
-                    dist[i + 1][j][!atp] = newCost;
-                    pq.push({newCost, i + 1, j, !atp});
+                    if (dist[i + 1][j][!atp] > cost + ((i + 2) * (j + 1)) + penalty[i][j]) {
+                        pq.push({cost + ((i + 2) * (j + 1)) + penalty[i][j], {{i + 1, j}, !atp}});
+                    }
                 }
             }
 
-            // Right
-            if (j + 1 < m) {
+            if (j + 1 < m && (!vis[i][j + 1][!atp]) &&
+                dist[i][j + 1][!atp] > cost + ((i + 2) * (j + 1))) {
                 if (atp) {
-                    newCost = cost + (long long)(i + 1) * (j + 2);
+                    pq.push({cost + ((i + 1) * (j + 2)), {{i, j + 1}, !atp}});
                 } else {
-                    newCost = cost + penalty[i][j] +
-                              (long long)(i + 1) * (j + 2);
-                }
-
-                if (newCost < dist[i][j + 1][!atp]) {
-                    dist[i][j + 1][!atp] = newCost;
-                    pq.push({newCost, i, j + 1, !atp});
+                    if (dist[i][j + 1][!atp] > cost + ((i + 1) * (j + 2)) + penalty[i][j]) {
+                        pq.push({cost + ((i + 1) * (j + 2)) + penalty[i][j], {{i, j + 1}, !atp}});
+                    }
                 }
             }
 
-            // Up
-            if (i - 1 >= 0) {
+            if (i - 1 > -1 && (!vis[i - 1][j][!atp]) &&
+                dist[i - 1][j][!atp] > cost + ((i + 2) * (j + 1))) {
                 if (!atp) {
-                    newCost = cost + (long long)i * (j + 1);
+                    pq.push({cost + ((i) * (j + 1)), {{i - 1, j}, !atp}});
                 } else {
-                    newCost = cost + penalty[i][j] +
-                              (long long)i * (j + 1);
-                }
-
-                if (newCost < dist[i - 1][j][!atp]) {
-                    dist[i - 1][j][!atp] = newCost;
-                    pq.push({newCost, i - 1, j, !atp});
+                    if (dist[i - 1][j][!atp] > cost + ((i) * (j + 1)) + penalty[i][j]) {
+                        pq.push({cost + ((i) * (j + 1)) + penalty[i][j], {{i - 1, j}, !atp}});
+                    }
                 }
             }
 
-            // Left
-            if (j - 1 >= 0) {
+            if (j - 1 > -1 && (!vis[i][j - 1][!atp]) &&
+                dist[i][j - 1][!atp] > cost + ((i + 2) * (j + 1))) {
                 if (!atp) {
-                    newCost = cost + (long long)(i + 1) * j;
+                    pq.push({cost + ((i + 1) * (j)), {{i, j - 1}, !atp}});
                 } else {
-                    newCost = cost + penalty[i][j] +
-                              (long long)(i + 1) * j;
-                }
-
-                if (newCost < dist[i][j - 1][!atp]) {
-                    dist[i][j - 1][!atp] = newCost;
-                    pq.push({newCost, i, j - 1, !atp});
+                    if (dist[i][j - 1][!atp] > cost + ((i + 1) * (j)) + penalty[i][j]) {
+                        pq.push({cost + ((i + 1) * (j)) + penalty[i][j], {{i, j - 1}, !atp}});
+                    }
                 }
             }
         }

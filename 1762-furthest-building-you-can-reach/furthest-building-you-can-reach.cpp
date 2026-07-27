@@ -1,12 +1,12 @@
 class Solution {
 public:
     int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
-        vector<int>v;
-        v.push_back(0);
+        
         int n=heights.size();
+        vector<int>v(n);
 
         for(int i=1;i<n;i++){
-            v.push_back(max(0,heights[i]-heights[i-1]));
+            v[i]=(max(0,heights[i]-heights[i-1]));
         }
         int mini=0;
         int maxi=n-1;

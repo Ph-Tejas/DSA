@@ -1,46 +1,31 @@
 class Solution {
 public:
     int n;
-    vector<vector<vector<int>>>dp;
-    int fun(int i,int prev,int dir,vector<int>&nums){
-        if(i==n)return 0;
-        if(dp[i][prev][dir]!=-1)return dp[i][prev][dir];
-
-        int ntpk=fun(i+1,prev,dir,nums);
-        int pk;
+    vector<vector<int>>dp;
+    int fun(int i,int dir,vector<int>&nums){
+        
+        if(i+1==n)return 1;
+        if(dp[i][dir]!=-1)return dp[i][dir];
+        int ans;
         if(dir==0){
-            if(prev==1001){
-                pk=1+fun(i+1,nums[i],!dir,nums);
+            if(nums[i]>nums[i+1]){
+                ans=1+fun(i+1,!dir,nums);
             }
-            else{
-                if(nums[i]<prev){
-                    pk=1+fun(i+1,nums[i],!dir,nums);
-                }
-                else{
-                    pk=ntpk;
-                }
-            }
+            else ans=fun(i+1,dir,nums);
         }
         else{
-            if(prev==1001){
-                pk=1+fun(i+1,nums[i],!dir,nums);
+            if(nums[i]<nums[i+1]){
+                ans=1+fun(i+1,!dir,nums);
             }
-            else{
-                if(nums[i]>prev){
-                    pk=1+fun(i+1,nums[i],!dir,nums);
-                }
-                else{
-                    pk=ntpk;
-                }
-            }
+            else ans=fun(i+1,dir,nums);
         }
-        return dp[i][prev][dir]=max(ntpk,pk);
+        return dp[i][dir]=ans;
 
     }
     int wiggleMaxLength(vector<int>& nums) {
         n=nums.size();
-        dp.resize(n,vector<vector<int>>(1002,vector<int>(2,-1)));
-        return max(fun(0,1001,0,nums),fun(0,1001,1,nums));
+        dp.resize(n,vector<int>(2,-1));
+        return max(fun(0,0,nums),fun(0,1,nums));
 
         
     }

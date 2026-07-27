@@ -17,15 +17,17 @@ public:
             for(int i=0;i<=mid;i++){
                 v1.push_back(v[i]);
             }
-            int l=ladders;
-            sort(v1.begin(),v1.end());
-            if(l>=mid+1)flag=true;
-            while(!v1.empty() && l--){
-                v1.pop_back();
+            if (ladders < v1.size()) {
+                nth_element(v1.begin(), v1.end() - ladders, v1.end());
+
+                int sum = accumulate(v1.begin(), v1.end() - ladders, 0);
+
+                if(sum <= bricks) flag = true;
             }
-            int sum=accumulate(v1.begin(),v1.end(),0);
-            if(sum<=bricks)flag=true;
-            if(flag)mini=mid+1;
+            else {
+                flag = true;
+            }           
+             if(flag)mini=mid+1;
             else maxi=mid-1;
         }
         return maxi;

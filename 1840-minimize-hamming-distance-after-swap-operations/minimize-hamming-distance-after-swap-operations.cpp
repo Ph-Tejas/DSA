@@ -49,14 +49,14 @@ public:
         for(int i=0;i<sz;i++){
             ds.join(allowedSwaps[i][0],allowedSwaps[i][1]);
         }
-        map<int,vector<int>>mp;
+        unordered_map<int,vector<int>>mp;
         for(int i=0;i<n;i++){
             mp[ds.findUpar(i)].push_back(i);
         }
 
         int ans=0;
         for(auto &val:mp){
-            map<int,int>mpp;
+            unordered_map<int,int>mpp;
             int sz=val.second.size();
             for(auto &ind:val.second){
                 mpp[source[ind]]++;

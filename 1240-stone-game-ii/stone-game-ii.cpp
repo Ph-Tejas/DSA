@@ -1,10 +1,10 @@
 class Solution {
 public:
     int n;
-    vector<vector<int>>dp;
+    int dp[101][101];
     int fun(int i,vector<int>& piles,int m){
         if(i==n)return 0;
-        cout<<i<<" "<<m<<endl;
+        // cout<<i<<" "<<m<<endl;
         if(dp[i][m]!=-1)return dp[i][m];
         int sum=0;
         int ans=INT_MIN;
@@ -16,7 +16,7 @@ public:
     }
     int stoneGameII(vector<int>& piles) {
         n=piles.size();
-        dp.resize(n,vector<int>(n+1,-1));
+        memset(dp,-1,sizeof(dp));
         int a=fun(0,piles,1);
       
         return ((accumulate(piles.begin(),piles.end(),0)-a)/2)+a;

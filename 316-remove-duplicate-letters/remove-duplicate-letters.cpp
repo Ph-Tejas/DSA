@@ -26,8 +26,8 @@ public:
        
 
         while(!st.empty()){
-            for(auto &val:st)cout<<val<<" ";
-            cout<<endl;
+            // for(auto &val:st)cout<<val<<" ";
+            // cout<<endl;
             
             int ct=-1;
 
@@ -58,7 +58,7 @@ public:
                 }
 
             }
-            cout<<ct<<" "<<endl;
+            // cout<<ct<<" "<<endl;
             for(int i=0;i<26;i++){
                 while(!vs[i].empty() && vs[i].top()<ct)vs[i].pop();
             }

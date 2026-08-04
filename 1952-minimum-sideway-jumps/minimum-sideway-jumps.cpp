@@ -1,19 +1,18 @@
 class Solution {
 public:
     int n;
-    vector<vector<int>>dp;
-    int fun(int lane,vector<int>& obstacles,int i){
+    int fun(int lane,vector<int>& obstacles,int i,vector<vector<int>>&dp){
         if(i==n-1)return 0;
         if(dp[i][lane]!=-1)return dp[i][lane];
         int ans=0;
         if(obstacles[i+1]!=lane){
-            ans=fun(lane,obstacles,i+1);
+            ans=fun(lane,obstacles,i+1,dp);
         }
         else{
             int mini=INT_MAX;
             for(int it=1;it<=3;it++){
                 if(it==lane)continue;
-                if(obstacles[i]!=it)mini=min(1+fun(it,obstacles,i),mini);
+                if(obstacles[i]!=it)mini=min(1+fun(it,obstacles,i,dp),mini);
             }
             ans=mini;
         }
@@ -21,7 +20,8 @@ public:
     }
     int minSideJumps(vector<int>& obstacles) {
         n=obstacles.size();
-        dp.resize(n,vector<int>(4,-1));
-        return fun(2,obstacles,0);
+        vector<vector<int>>dp(n,vector<int>(4,-1));
+        // dp.resize;
+        return fun(2,obstacles,0,dp);
     }
 };

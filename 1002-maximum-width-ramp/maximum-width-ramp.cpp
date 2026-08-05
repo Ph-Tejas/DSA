@@ -18,7 +18,7 @@ public:
         int ans=0;
 
         for(int i=0;i<n;i++){
-            cout<<v1[i]<<" ";
+            // cout<<v1[i]<<" ";
             int curr=nums[i];
             ans=max(v1[nums[i]]-i,ans);
         }

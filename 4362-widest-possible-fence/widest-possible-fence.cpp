@@ -1,39 +1,41 @@
 class Solution {
 public:
     int maximumWidth(vector<int>& planks) {
-        int n=planks.size();
-        unordered_map<int,int>mp;
-        int maxi=INT_MIN;
-        for(int i=0;i<n;i++){
-            mp[planks[i]]++;
-            maxi=max(maxi,mp[planks[i]]);
-        }
+        unordered_map<int, int> count;
+        count.reserve(planks.size());
 
-        vector<int>v;
-        for(auto &val:mp){
-            v.push_back(val.first);
-            // cout<<v.back();
-        }
-        unordered_map<int,int>freq;
-        int sz=v.size();
-        for(int i=0;i<sz;i++){
-            for(int j=i;j<sz;j++){
+        int answer = 0;
 
-                if(i==j)freq[v[i]+v[j]]+=mp[v[i]]/2;
+        for (int plank : planks)
+            answer = max(answer, ++count[plank]);
 
+        vector<pair<int, int>> values;
+        values.reserve(count.size());
 
-                else freq[v[i]+v[j]]+=min(mp[v[i]],mp[v[j]]);
-                
+        for (const auto &p : count)
+            values.push_back(p);
+
+        unordered_map<int, int> sumFreq;
+        sumFreq.reserve(values.size() * values.size());
+
+        int distinct = values.size();
+
+        for (int i = 0; i < distinct; ++i) {
+            auto &[x1, c1] = values[i];
+
+            for (int j = i; j < distinct; ++j) {
+                auto &[x2, c2] = values[j];
+
+                if (i == j)
+                    sumFreq[x1 + x2] += c1 / 2;
+                else
+                    sumFreq[x1 + x2] += min(c1, c2);
             }
         }
-        for(auto &val:freq){
-            maxi=max(maxi,val.second+mp[val.first]);
-        }
-        
-        return maxi;
 
+        for (const auto &[sum, pairs] : sumFreq)
+            answer = max(answer, pairs + count[sum]);
 
-
-
+        return answer;
     }
 };

@@ -9,6 +9,7 @@ public:
         }
         for(int i=2;i<=n;i++){
             if(i==n)return dp[n];
+            
             for(int j=i+i,ct=2;j<=n;j+=i,ct++){
                 dp[j]=min(dp[i]+ct,dp[j]);
             }

@@ -52,9 +52,7 @@ public:
             }
 
         }
-        for(int i=1;i<=n;i++){
-            cout<<dist[i]<<" ";
-        }
+        
 
         return fun(1,n);
 

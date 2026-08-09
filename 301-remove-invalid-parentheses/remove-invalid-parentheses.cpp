@@ -5,7 +5,7 @@ public:
     void build(int i,int ct,string &s,string &temp,int val){
         if(i==n){
             if(ct==0){
-            cout<<temp<<" "<<val<<endl;
+            // cout<<temp<<" "<<val<<endl;
                 if(val==0){
                     collect.insert(temp);
                 }

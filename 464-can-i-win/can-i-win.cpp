@@ -1,12 +1,12 @@
-struct PairHash {
-    size_t operator()(const pair<int, int>& p) const {
-        return hash<int>()(p.first) ^ (hash<int>()(p.second) << 1);
-    }
-};
+// struct PairHash {
+//     size_t operator()(const pair<int, int>& p) const {
+//         return hash<int>()(p.first) ^ (hash<int>()(p.second) << 1);
+//     }
+// };
 class Solution {
 public:
 
-    unordered_map<pair<int,int>,int,PairHash>mp;
+    map<pair<int,int>,int>mp;
     int maxx;
     int t;
     bool fun(int vis,int T){

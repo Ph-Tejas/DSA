@@ -4,7 +4,7 @@ public:
         int n=nums.size();
         int i=0;
         int maxi=0;
-        map<int,int>mp;
+        unordered_map<int,int>mp;
         for(int j=0;j<n;j++){
             mp[nums[j]]++;
             while(mp[nums[j]]>k){

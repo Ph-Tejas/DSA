@@ -20,7 +20,7 @@ public:
 class Solution {
 public:
     
-    vector<Node*>segTree;
+    Node* segTree[400000];
 
     bool intersectionSame(Node* &l,Node* &r){
         return (l->sc)==(r->pc);
@@ -103,8 +103,7 @@ public:
     vector<int> longestRepeating(string s, string queryCharacters, vector<int>& queryIndices) {
         int n=s.size();
         int m=queryCharacters.size();
-
-        segTree.resize(4*n+1);
+        memset(segTree,NULL,sizeof(segTree));
 
         build(0,n-1,s,0);
         

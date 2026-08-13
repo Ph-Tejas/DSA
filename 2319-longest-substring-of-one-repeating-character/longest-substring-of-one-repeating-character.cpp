@@ -57,7 +57,6 @@ public:
         else pz=l->pf;
         char chp=l->pc;
         char chs=r->sc;
-        // if(i==3 && j==5 && mid==4)cout<<mx<<" "<<pz<<" "<<sz<<" "<<chp<<" "<<chs<<endl;
         Node* ans=new Node(mx,pz,sz,chp,chs);
         return ans;
     }
@@ -71,7 +70,6 @@ public:
         Node* l=build(i,mid,s,2*ind+1);
         Node* r=build(mid+1,j,s,2*ind+2);
 
-        // if(i==3 && j==5 && mid==4)cout<<mx<<" "<<pz<<" "<<sz<<" "<<chp<<" "<<chs<<endl;
 
         return segTree[ind]=findFin(l,r,i,j,mid);
 
@@ -109,10 +107,7 @@ public:
         segTree.resize(4*n+1);
 
         build(0,n-1,s,0);
-        // for(int i=0;i<4*n+1;i++){
-            
-        //     if(segTree[i]!=NULL)cout<<segTree[i]->maxLength<<" "<<segTree[i]->pf<<" "<<segTree[i]->sf<<" "<<segTree[i]->pc<<" "<<segTree[i]->sc<<endl;
-        // }
+        
         vector<int>ans(m);
         for(int i=0;i<m;i++){
             int ch=queryCharacters[i];
@@ -121,7 +116,7 @@ public:
 
 
             Node* res=update(loc,ch,0,n-1,0,s);
-            // if(res!=NULL)cout<<res->maxLength<<" "<<res->pf<<" "<<res->sf<<" "<<res->pc<<" "<<res->sc<<endl;
+            
             ans[i]=res->maxLength;
 
         }

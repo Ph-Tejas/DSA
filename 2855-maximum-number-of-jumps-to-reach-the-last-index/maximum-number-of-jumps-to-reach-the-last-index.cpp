@@ -10,24 +10,25 @@ public:
                 if(abs(nums[j]-nums[i])<=target)adj[i].push_back(j);
             }
         }
-        vector<int>vis(n,1e6+1);
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>q;
-        q.push({1e6,0});
+        vector<int>vis(n,-1);
+        priority_queue<pair<int,int>>q;
+        q.push({0,0});
         
         while(!q.empty()){
             int node=q.top().second;
             int c=q.top().first;
             q.pop();
             
-            if(vis[node]<=c)continue;
+            if(vis[node]>=c)continue;
             vis[node]=c;
             
 
             for(auto &val:adj[node]){
-                if(vis[val]<=c-1)continue;
-                q.push({c-1,val});
+                if(vis[val]>=c+1)continue;
+                q.push({c+1,val});
             }
         }
-        return 1e6-vis[n-1];
+
+        return vis[n-1];
     }
 };

@@ -21,9 +21,9 @@ public:
        
         for(auto &val:mp1){
             it=val.first;
-            cout<<it<<endl;
+            // cout<<it<<endl;
             for(auto &j:val.second){
-                cout<<j<<" ";
+                // cout<<j<<" ";
                 if(j>=2 &&j<=3)v[it-1][0]=false;
                 else if(j>=4 &&j<=5){
                     v[it-1][0]=false;
@@ -40,7 +40,7 @@ public:
 
             }
             
-            cout<<endl;
+            // cout<<endl;
         }
         int ct=0;
         for(int i=0;i<sz;i++){

@@ -82,18 +82,7 @@ public:
         ref=max(ref,solve(v1));
         v1.clear();
         
-        for(int i=0;i<n;i++){
-            if(i==ind1+1)continue;
-            v1.push_back(nums[i]);
-        }
-        ref=max(ref,solve(v1));
-        v1.clear();
         
-        for(int i=0;i<n;i++){
-            if(i==ind1-1)continue;
-            v1.push_back(nums[i]);
-        }
-        ref=max(ref,solve(v1));
 
 
 
@@ -103,18 +92,7 @@ public:
             v2.push_back(nums[i]);
         }
         ref=max(ref,solve(v2));
-        v2.clear();
-        for(int i=0;i<n;i++){
-            if(i==ind2-1)continue;
-            v2.push_back(nums[i]);
-        }
-        ref=max(ref,solve(v2));
-        v2.clear();
-        for(int i=0;i<n;i++){
-            if(i==ind2+1)continue;
-            v2.push_back(nums[i]);
-        }
-        ref=max(ref,solve(v2));
+        
         v2.clear();
         for(int i=0;i<n;i++){
             if(i==0)continue;

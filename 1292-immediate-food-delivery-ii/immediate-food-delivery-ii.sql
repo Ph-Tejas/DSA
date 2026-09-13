@@ -7,12 +7,12 @@ FROM (
     SELECT
         MIN(order_date) AS minimum_date,
         (
-            SELECT customer_pref_delivery_date
+            SELECT customer_pref_delivery_date as cp
             FROM Delivery d2
             WHERE d2.customer_id = d1.customer_id
             ORDER BY d2.order_date
             LIMIT 1
-        ) AS cp
+        ) as cp
     FROM Delivery d1
     GROUP BY customer_id
 )x;

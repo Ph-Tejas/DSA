@@ -10,7 +10,7 @@ where (product_id,change_date) in (
     group by product_id
 )
 
-union 
+union all
 
 select product_id, 10 as price
 from Products

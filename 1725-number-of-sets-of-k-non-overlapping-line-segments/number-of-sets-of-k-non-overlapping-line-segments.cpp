@@ -1,41 +1,42 @@
 class Solution {
 public:
-    int N;
     int mod=1e9+7;
-    vector<vector<vector<long long>>>dp;
-    long long fun(int i,int k,int st){
-        // cout<<i<<" "<<k<<" "<<st<<endl;
-        if(k==0){
-            return 1;
-
-        }
-
-        if(i==N){
-            if(st==2 && k==1)return 1;
-            return 0;
-        }
-        if(dp[i][k][st]!=-1)return dp[i][k][st];
-
-        int pck;
-        if(st==0){
-            
-            pck=(fun(i+1,k,1)+fun(i+1,k,0))%mod;
-            
-
-        }
-        else if(st==1){
-            pck=(fun(i+1,k,2))%mod;
-            
-        }
-        else{
-            pck=(fun(i-1,k-1,0)+fun(i+1,k,2))%mod;
-            
-        }
-        return dp[i][k][st]=pck;
-    }
+    
     int numberOfSets(int n, int k) {
-        N=n;
-        dp.resize(n,vector<vector<long long>>(k+1,vector<long long>(3,-1)));
-        return fun(0,k,0);
+        vector<vector<vector<long long>>>dp(n,vector<vector<long long>>(k+1,vector<long long>(2)));
+    
+        dp[n-1][1][1]=1;
+        for(int i=0;i<n;i++){
+            dp[i][0][0]=1;
+            dp[i][0][0]=1;
+            
+        }
+
+        
+        for(int i=n-2;i>-1;i--){
+            for(int j=1;j<=k;j++){
+                for(int l=0;l<2;l++){
+                    if(l==0){
+                        dp[i][j][l]=(dp[i+1][j][0]+dp[i+1][j][1])%mod;
+
+                    }
+                    else{
+                        dp[i][j][l]=(((dp[i+1][j-1][0]+dp[i+1][j-1][1])%mod)+dp[i+1][j][1])%mod;
+                    }
+                }
+
+            }
+        }
+        // for(int i=0;i<n;i++){
+        //     for(int j=0;j<=k;j++){
+        //         cout<<dp[i][j][0]<<","<<dp[i][j][1]<<"             ";
+                
+                
+        //     }
+        //     cout<<endl;
+        // }
+        return (dp[0][k][0])%mod;
+        
+
     }
 };

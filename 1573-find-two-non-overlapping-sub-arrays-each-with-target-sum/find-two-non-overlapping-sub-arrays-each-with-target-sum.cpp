@@ -22,9 +22,8 @@ public:
             if(tgt[i]!=-1){
                 tgt[i]=(tgt[i]-i+1);
             }
-            cout<<tgt[i]<<" ";
         }
-        cout<<endl;
+        
         vector<int>tgt_s=tgt;
         int ans=INT_MAX;
         for(int i=n-2;i>-1;i--){

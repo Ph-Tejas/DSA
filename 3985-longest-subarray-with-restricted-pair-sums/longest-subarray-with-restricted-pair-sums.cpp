@@ -3,12 +3,12 @@ public:
     int maxSubarray(vector<int>& nums) {
         int n=nums.size();
         int msz=n;
-        vector<vector<int>>v;
+        vector<pair<int,int>>v;
         
         for(int i=0;i<n-2;i++){
             unordered_map<int,int>st;
             int a=nums[i];
-            st[nums[i]]++;
+            st[a]++;
             st[nums[i+1]]++;
             for(int j=i+2;j<n;j++){
                 int b=nums[j];
@@ -18,7 +18,7 @@ public:
                         break;
                     }
                     else{
-                        while(!v.empty() && v.back()[1]>=j){
+                        while(!v.empty() && v.back().second>=j){
                             v.pop_back();
                             
                         }
@@ -30,22 +30,19 @@ public:
                 
             }
         }
-        for(auto &val:v){
-            cout<<val[0]<<" "<<val[1]<<endl;
-        }
 
         n=v.size();
         if(n==0)return msz;
         int ans=0;
         for(int i=0;i<n;i++){
-            int l=v[i][0];
-            int r=v[i][1];
+            int l=v[i].first;
+            int r=v[i].second;
                 
             if(i==0){
                 ans=max(ans,r);
                 if(i==n-1)ans=max(ans,msz-(l+1));
                 else{
-                    int rr=v[i+1][1];
+                    int rr=v[i+1].second;
                     rr--;
                     ans=max(ans,rr-l);
                 }
@@ -54,7 +51,7 @@ public:
             else{
                 if(i==n-1)ans=max(ans,msz-(l+1));
                 else{
-                    int rr=v[i+1][1];
+                    int rr=v[i+1].second;
                     rr--;
                     ans=max(ans,rr-l);
                 }

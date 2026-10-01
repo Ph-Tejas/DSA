@@ -14,12 +14,11 @@ public:
         while(maxi>=mini){
             int mid=mini+(maxi-mini)/2;
             int p_=p;
-            vector<int>vis(n-1);
             for(int i=0;i<n-1;i++){
-                if(vis[i])continue;
+                
                 if(v[i]<=mid){
-                    if(i!=n-2)vis[i+1]=true;
                     p_--;
+                    i++;
                 }
 
             }

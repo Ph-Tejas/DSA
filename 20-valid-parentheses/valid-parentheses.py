@@ -33,6 +33,7 @@ class Solution:
             else:
                 st.append(s[i])
 
+                
         if len(st)!=0:
             return False
 

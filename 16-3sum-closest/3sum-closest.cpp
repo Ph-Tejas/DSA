@@ -2,7 +2,7 @@ class Solution {
 public:
     int threeSumClosest(vector<int>& nums, int target) {
         int n=nums.size();
-        vector<vector<int>>v(n);
+        vector<int> v[n];
         vector<int>tmp;
         for(int i=n-1;i>-1;i--){
             tmp.push_back(nums[i]);

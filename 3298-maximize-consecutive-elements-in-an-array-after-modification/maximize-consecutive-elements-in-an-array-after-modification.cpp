@@ -4,7 +4,7 @@ public:
         int n=nums.size();
         sort(nums.begin(),nums.end());
         int maxi=1;
-        map<int,int>mp;
+        unordered_map<int,int>mp;
         vector<vector<int>>dp(n,vector<int>(2,1));
         mp[nums[0]]=1;
         mp[nums[0]+1]=1;

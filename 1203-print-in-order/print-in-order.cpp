@@ -1,34 +1,26 @@
 class Foo {
+private:
+    mutex mtx1;
+    mutex mtx2;
 public:
-    atomic<int> flag{0};
     Foo() {
-        
+        mtx1.lock(); 
+        mtx2.lock(); 
     }
 
     void first(function<void()> printFirst) {
-        while(flag!=0){
-            
-        }
-        // printFirst() outputs "first". Do not change or remove this line.
         printFirst();
-        flag++;
+        mtx1.unlock(); 
     }
 
     void second(function<void()> printSecond) {
-        while(flag!=1){
-            
-        }
-        // printSecond() outputs "second". Do not change or remove this line.
+        mtx1.lock(); 
         printSecond();
-        flag++;
+        mtx2.unlock(); 
     }
 
     void third(function<void()> printThird) {
-        while(flag!=2){
-            
-        }
-        // printThird() outputs "third". Do not change or remove this line.
+        mtx2.lock();
         printThird();
-        flag=0;
     }
 };

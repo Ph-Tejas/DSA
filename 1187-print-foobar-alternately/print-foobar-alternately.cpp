@@ -1,43 +1,50 @@
-#include<bits/stdc++.h>
 class FooBar {
 private:
-    int n;
     mutex m;
-    bool flag=false;
     condition_variable cv;
+    int n;
+    bool f;
+
 public:
     FooBar(int n) {
         this->n = n;
+        f=false;
     }
 
     void foo(function<void()> printFoo) {
         
-            unique_lock<mutex> lock(m);
         for (int i = 0; i < n; i++) {
-            cv.wait(lock,[&](){
-                return !flag;
-            });
+
+            unique_lock<mutex>lock(m);
         	// printFoo() outputs "foo". Do not change or remove this line.
-        	printFoo();
+        	if(f){
+                cv.wait(lock);
+
+
+            }
+            printFoo();
+            f=true;
             cv.notify_all();
-            flag=true;
+
+
         }
     }
 
     void bar(function<void()> printBar) {
         
-            unique_lock<mutex> lock(m);
         for (int i = 0; i < n; i++) {
+            unique_lock<mutex>lock(m);
+            if(!f){
+                cv.wait(lock);
+            }
+            
 
-            cv.wait(lock,[&](){
-                return flag;
-            });
 
             
+
         	// printBar() outputs "bar". Do not change or remove this line.
         	printBar();
-            flag=false;
-
+            f=false;
             cv.notify_all();
         }
     }

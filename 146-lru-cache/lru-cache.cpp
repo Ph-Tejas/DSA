@@ -1,166 +1,86 @@
 class List{
 public:
+    int key;
     int val;
-    int keyy;
-    List* left;
-    List* right;
-    List(int k,int value){
-        keyy=k;
-        val=value;
-        left=NULL;
-        right=NULL;
+    List* nxt;
+    List* prv;
+    List(int key,int val){
+        this->key=key;
+        this->val=val;
+        nxt=NULL;
+        prv=NULL;
+
     }
-    List(int k,int value,List* L){
-        keyy=k;
-        val=value;
-        left=L;
-        right=NULL;
-    }
-    
-    
 };
 class LRUCache {
+
 public:
-    List* mostRecent;
-    List* leastRecent;
-    vector<List*>posOfList;
-    int sz;
-    int maxSz;
-    LRUCache(int capacity) {
-        mostRecent=NULL;
-        posOfList.resize(1e4+1,NULL);
-        sz=0;
-        maxSz=capacity;
-    }
+    int mx;
+    map<int,List*>mp;
+    int first;
+    int last;
     
-    int get(int key) {
-        if(posOfList[key]!=NULL){
-            if(posOfList[key]->right==NULL){
-                return posOfList[key]->val;
-            }
-            else if(posOfList[key]->left==NULL){
-                int value=posOfList[key]->val;
-                List* lstR=posOfList[key]->right;
-                lstR->left=NULL;
-                leastRecent=lstR;
-                mostRecent->right=new List(key,value,mostRecent);
-                mostRecent=mostRecent->right;
-                posOfList[key]=mostRecent;
+    LRUCache(int capacity) {
+        mx=capacity;
 
-            }
-            else if(posOfList[key]->left!=NULL&&posOfList[key]->right!=NULL){
-                int value=posOfList[key]->val;
-                List* lstR=posOfList[key]->right;
-                List* lstL=posOfList[key]->left;
-                lstR->left=lstL;
-                lstL->right=lstR;
-                mostRecent->right=new List(key,value,mostRecent);
-                mostRecent=mostRecent->right;
-                posOfList[key]=mostRecent;
-            }
+        
+    }
+    void change(int key){
+        if(key==first) return; 
+        List* forw=mp[key]->nxt;
+        List* back=mp[key]->prv;
 
-            return posOfList[key]->val;
+        mp[key]->nxt=mp[first];
+        mp[key]->prv=NULL;
+        mp[first]->prv=mp[key];
+        first=key;
+        if(forw!=NULL)forw->prv=back;
+        else {
+            if(back!=NULL)last=back->key;
         }
-        else{
-            return -1;
-        }
+        if(back!=NULL)back->nxt=forw;
         
     }
     
-    void put(int key, int value) {
-        if(sz==0){
-            List* lst=new List(key,value);
-            posOfList[key]=lst;
-            mostRecent=lst;
-            leastRecent=lst;
-            sz++;
-
+    int get(int key) {
+        
+        if(mp.find(key)!=mp.end()){
+            change(key);
+            return mp[key]->val;
         }
-        else if(sz==maxSz){
-            if(sz==1){
-                int k=leastRecent->keyy;
-                List* lst=new List(key,value);
-                posOfList[key]=lst;
-                mostRecent=lst;
-                leastRecent=lst;
-                posOfList[k]=NULL;
+        return -1;
+    }
+    
+    void put(int key, int value) {
+        if(mp.size()==0){
+            mp[key]=new List(key,value);
+            first=key;
+            last=key;
+            return;
+        }
 
-                return;
-            }
-            if(posOfList[key]==NULL){
-                int k=leastRecent->keyy;
-                mostRecent->right=new List(key,value,mostRecent);
-                mostRecent=mostRecent->right;
-                posOfList[key]=mostRecent;
-                List* lstR=leastRecent->right;
-                lstR->left=NULL;
-                leastRecent=lstR;
-                posOfList[k]=NULL;
-
-                
-            }
-            else{
-                if(posOfList[key]->right==NULL){
-                    posOfList[key]->val=value;
-                    return;
-                }
-                if(posOfList[key]->left==NULL){
-                    List* lstR=posOfList[key]->right;
-                    lstR->left=NULL;
-                    leastRecent=lstR;
-                    mostRecent->right=new List(key,value,mostRecent);
-                    mostRecent=mostRecent->right;
-                    posOfList[key]=mostRecent;
-                }
-                else{
-                    List* lstR=posOfList[key]->right;
-                    List* lstL=posOfList[key]->left;
-                    lstR->left=lstL;
-                    lstL->right=lstR;
-                    mostRecent->right=new List(key,value,mostRecent);
-                    mostRecent=mostRecent->right;
-                    posOfList[key]=mostRecent;
-                }
-
-            }
-
-            
+        if(mp.find(key)!=mp.end()){
+            mp[key]->val=value;
+            change(key);
         }
         else{
-            if(posOfList[key]==NULL){
-                mostRecent->right=new List(key,value,mostRecent);
-                mostRecent=mostRecent->right;
-                posOfList[key]=mostRecent;
-                sz++;
-            }
-            else{
-                if(posOfList[key]->right==NULL){
-                    posOfList[key]->val=value;
-                    return;
-                }
-
-                if(posOfList[key]->left==NULL){
-                    List* lstR=posOfList[key]->right;
-                    lstR->left=NULL;
-                    leastRecent=lstR;
-                    mostRecent->right=new List(key,value,mostRecent);
-                    mostRecent=mostRecent->right;
-                    posOfList[key]=mostRecent;
-                }
-                else{
-                    List* lstR=posOfList[key]->right;
-                    List* lstL=posOfList[key]->left;
-                    lstR->left=lstL;
-                    lstL->right=lstR;
-                    mostRecent->right=new List(key,value,mostRecent);
-                    mostRecent=mostRecent->right;
-                    posOfList[key]=mostRecent;
-                }
+            mp[key]=new List(key,value);
+            mp[key]->nxt=mp[first];
+            mp[first]->prv=mp[key];
+            first=key;
+            if(mp.size()>mx){
+                int back=mp[last]->prv->key;
+                mp[back]->nxt=NULL;
+                mp[last]->prv=NULL;
+                mp.erase(last);
+                last=back;
 
             }
         }
+        
+        
 
-
+        
     }
 };
 
